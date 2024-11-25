@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participation{% endblock %}
+
+{% block body %}
+    <section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}');height: 300px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+        
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="@@page-link">participation details</a></li>
+          <li class="list-inline-item text-white h3 font-secondary @@nasted"></li>
+        </ul>
+        <p class="text-lighten">Below are the details for the selected participations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Participation Details Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <!-- Details Card -->
+                    <div class="card shadow-lg border-light rounded-lg">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">Participation Details</h4>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Participation Table -->
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th class="bg-light">ID</th>
+                                        <td>{{ participation.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Date of Participation</th>
+                                        <td>{{ participation.dateParticipation ? participation.dateParticipation|date('Y-m-d') : 'N/A' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <!-- Back to List Button -->
+                            <a href="{{ path('app_participation_index') }}" class="btn btn-secondary">
+                                <i class="ti-arrow-left"></i> Back to List
+                            </a>
+
+                            <!-- Edit Button -->
+                            <a href="{{ path('app_participation_edit', {'id': participation.id}) }}" class="btn btn-primary">
+                                <i class="ti-pencil"></i> Edit
+                            </a>
+
+                            <!-- Delete Form -->
+                            <div>
+                                <h6 class="text-danger text-center">Delete Participation</h6>
+                                {{ include('participation/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block body %}
+    <!-- Page Title Section with Background Color -->
+<section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}');height: 300px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+        
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="@@page-link">Event Details</a></li>
+          <li class="list-inline-item text-white h3 font-secondary @@nasted"></li>
+        </ul>
+        <p class="text-lighten">Below are the details for the selected event.</p>
+      </div>
+    </div>
+  </div>
+</section>
+       
+
+    <!-- Main Content Section with Card Design -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <!-- Event Details Card -->
+                    <div class="card shadow-lg border-light rounded-lg">
+                        <div class="card-body p-4">
+                            <!-- Event Information Table -->
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th class="text-muted">ID</th>
+                                        <td>{{ evenement.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">Title</th>
+                                        <td>{{ evenement.titreEven }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">Description</th>
+                                        <td>{{ evenement.descriptionEven }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">Event Date</th>
+                                        <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-muted">Location</th>
+                                        <td>{{ evenement.lieu }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Navigation Buttons -->
+                            <div class="d-flex justify-content-between mt-4">
+                                <a href="{{ path('app_evenement_index') }}" class="btn btn-secondary btn-lg text-white">
+                                    <i class="ti-arrow-left"></i> Back to List
+                                </a>
+                                <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}" class="btn btn-warning btn-lg text-white">
+                                    <i class="ti-pencil-alt"></i> Edit
+                                </a>
+                            </div>
+
+                            <!-- Delete Section -->
+                            <div class="mt-4">
+                                <h5 class="text-danger text-center">Delete Event</h5>
+                                <p class="text-center text-muted">If you no longer wish to keep this event, you can delete it.</p>
+                                {{ include('evenement/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

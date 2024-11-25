@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evaluation index{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <h1>Evaluation index</h1>
+
+    <!-- Table des évaluations -->
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>DateEvaluation</th>
+                <th>NoteMax</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evaluation in evaluations %}
+            <tr>
+                <td>{{ evaluation.id }}</td>
+                <td>{{ evaluation.type }}</td>
+                <td>{{ evaluation.dateEvaluation ? evaluation.dateEvaluation|date('Y-m-d') : '' }}</td>
+                <td>{{ evaluation.noteMax }}</td>
+                <td>
+                    <a href="{{ path('app_evaluation_show', {'id': evaluation.id}) }}" class="btn btn-info btn-sm">Show</a>
+                    <a href="{{ path('app_evaluation_edit', {'id': evaluation.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Bouton pour créer une nouvelle évaluation -->
+    <a href="{{ path('app_evaluation_new') }}" class="btn btn-success mt-3">Create New</a>
+{% endblock %}

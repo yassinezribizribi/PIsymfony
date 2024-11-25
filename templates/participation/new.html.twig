@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Participation{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}');height: 300px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+        
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="@@page-link">forum to be in event</a></li>
+          <li class="list-inline-item text-white h3 font-secondary @@nasted"></li>
+        </ul>
+        <p class="text-lighten">Fill in the form below to be in event you are the one who can change his life</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    {{ include('participation/_form.html.twig') }}
+
+    <a href="{{ path('app_participation_index') }}">back to list</a>
+{% endblock %}

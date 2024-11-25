@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New Event{% endblock %}
+
+{% block body %}
+    <!-- Page Header Section with Background -->
+    
+
+<section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}');height: 300px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+        
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="@@page-link">Create New Event</a></li>
+          <li class="list-inline-item text-white h3 font-secondary @@nasted"></li>
+        </ul>
+        <p class="text-lighten">Fill in the form below to create a new event. Let's make something great!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Main Form Section with Card Design -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <!-- Event Creation Card -->
+                    <div class="card shadow-lg border-light rounded-lg">
+                        <div class="card-body p-4">
+                            <!-- Event Creation Form Title -->
+                            <h3 class="text-center text-dark mb-4">Event Creation Form</h3>
+                            
+                            <!-- Event Form -->
+                            {{ include('evenement/_form.html.twig') }}
+                            
+                            <!-- Back to List Button -->
+                            <div class="text-center mt-4">
+                                <a href="{{ path('app_evenement_index') }}" class="btn btn-light btn-lg">
+                                    <i class="ti-arrow-left"></i> Back to List
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
