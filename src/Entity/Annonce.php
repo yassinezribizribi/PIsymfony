@@ -18,7 +18,7 @@ class Annonce
     private ?string $titreAnn = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $contenuAnn = null;
+    private ?string $descriptionAnn = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $datePublication = null;
@@ -43,14 +43,14 @@ class Annonce
         return $this;
     }
 
-    public function getContenuAnn(): ?string
+    public function getDescriptionAnn(): ?string
     {
-        return $this->contenuAnn;
+        return $this->descriptionAnn;
     }
 
-    public function setContenuAnn(string $contenuAnn): static
+    public function setDescriptionAnn(string $descriptionAnn): static
     {
-        $this->contenuAnn = $contenuAnn;
+        $this->descriptionAnn = $descriptionAnn;
 
         return $this;
     }

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur
@@ -31,21 +33,40 @@ class Utilisateur
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateInscri = null;
 
-    #[ORM\OneToOne(inversedBy: 'utilisateur', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Role $role = null;
+    #[ORM\Column(length: 50)]
+    #[Assert\Choice(choices: ['etudiant', 'enseignant', 'autre'], message: 'Choisissez un rôle valide.')]
+    private string $role;
+
+   
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'expediteur')]
+    private Collection $messages;
 
     /**
-     * @var Collection<int, Participation>
+     * @var Collection<int, Cours>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'utilisateur', orphanRemoval: true)]
-    private Collection $participations;
+    #[ORM\OneToMany(targetEntity: Cours::class, mappedBy: 'utilisateur')]
+    private Collection $cours;
+
+    /**
+     * @var Collection<int, Evaluation>
+     */
+    #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'utilisateur')]
+    private Collection $evaluations;
 
     /**
      * @var Collection<int, Evenement>
      */
-    #[ORM\OneToMany(targetEntity: Evenement::class, mappedBy: 'organisateurs')]
+    #[ORM\OneToMany(targetEntity: Evenement::class, mappedBy: 'utilisateur')]
     private Collection $evenements;
+
+    /**
+     * @var Collection<int, Participation>
+     */
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'utilisateur')]
+    private Collection $participations;
 
     /**
      * @var Collection<int, Annonce>
@@ -53,21 +74,19 @@ class Utilisateur
     #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'utilisateur')]
     private Collection $annonces;
 
-    /**
-     * @var Collection<int, Message>
-     */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'expediteur')]
-    private Collection $messages;
-
     public function __construct()
     {
-        $this->participations = new ArrayCollection();
-        $this->evenements = new ArrayCollection();
-        $this->annonces = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->cours = new ArrayCollection();
+        $this->evaluations = new ArrayCollection();
+        $this->evenements = new ArrayCollection();
+        $this->participations = new ArrayCollection();
+        $this->annonces = new ArrayCollection();
+        
     }
 
-    public function getId(): ?int
+    
+        public function getId(): ?int
     {
         return $this->id;
     }
@@ -131,15 +150,133 @@ class Utilisateur
 
         return $this;
     }
-
-    public function getRole(): ?Role
+    public function getRole(): string
     {
         return $this->role;
     }
-
-    public function setRole(Role $role): static
+    
+    public function setRole(string $role): self
     {
         $this->role = $role;
+        return $this;
+    }
+    
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): static
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setExpediteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getExpediteur() === $this) {
+                $message->setExpediteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cours>
+     */
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCour(Cours $cour): static
+    {
+        if (!$this->cours->contains($cour)) {
+            $this->cours->add($cour);
+            $cour->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCour(Cours $cour): static
+    {
+        if ($this->cours->removeElement($cour)) {
+            // set the owning side to null (unless already changed)
+            if ($cour->getUtilisateur() === $this) {
+                $cour->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evaluation>
+     */
+    public function getEvaluations(): Collection
+    {
+        return $this->evaluations;
+    }
+
+    public function addEvaluation(Evaluation $evaluation): static
+    {
+        if (!$this->evaluations->contains($evaluation)) {
+            $this->evaluations->add($evaluation);
+            $evaluation->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvaluation(Evaluation $evaluation): static
+    {
+        if ($this->evaluations->removeElement($evaluation)) {
+            // set the owning side to null (unless already changed)
+            if ($evaluation->getUtilisateur() === $this) {
+                $evaluation->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Evenement>
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): static
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements->add($evenement);
+            $evenement->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): static
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            // set the owning side to null (unless already changed)
+            if ($evenement->getUtilisateur() === $this) {
+                $evenement->setUtilisateur(null);
+            }
+        }
 
         return $this;
     }
@@ -168,36 +305,6 @@ class Utilisateur
             // set the owning side to null (unless already changed)
             if ($participation->getUtilisateur() === $this) {
                 $participation->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Evenement>
-     */
-    public function getEvenements(): Collection
-    {
-        return $this->evenements;
-    }
-
-    public function addEvenement(Evenement $evenement): static
-    {
-        if (!$this->evenements->contains($evenement)) {
-            $this->evenements->add($evenement);
-            $evenement->setOrganisateurs($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvenement(Evenement $evenement): static
-    {
-        if ($this->evenements->removeElement($evenement)) {
-            // set the owning side to null (unless already changed)
-            if ($evenement->getOrganisateurs() === $this) {
-                $evenement->setOrganisateurs(null);
             }
         }
 
@@ -234,33 +341,4 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): static
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setExpediteur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): static
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getExpediteur() === $this) {
-                $message->setExpediteur(null);
-            }
-        }
-
-        return $this;
-    }
 }

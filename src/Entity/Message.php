@@ -15,7 +15,7 @@ class Message
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ContenuMessage = null;
+    private ?string $contenuMessage = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEnvoi = null;
@@ -33,12 +33,12 @@ class Message
 
     public function getContenuMessage(): ?string
     {
-        return $this->ContenuMessage;
+        return $this->contenuMessage;
     }
 
-    public function setContenuMessage(string $ContenuMessage): static
+    public function setContenuMessage(string $contenuMessage): static
     {
-        $this->ContenuMessage = $ContenuMessage;
+        $this->contenuMessage = $contenuMessage;
 
         return $this;
     }

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chapitre index{% endblock %}
+
+{% block body %}
+
+<br>
+<br>
+<br>
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Chapitre </h1>
+
+        <!-- Table des chapitres -->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>TitreChap</th>
+                    <th>ContenuChap</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for chapitre in chapitres %}
+                <tr>
+                    <td>{{ chapitre.id }}</td>
+                    <td>{{ chapitre.titreChap }}</td>
+                    <td>{{ chapitre.contenuChap }}</td>
+                    <td>
+                        <!-- Ajout des boutons avec Bootstrap -->
+                        <a href="{{ path('app_chapitre_show', {'id': chapitre.id}) }}" class="btn btn-info btn-sm">Show</a>
+                        <a href="{{ path('app_chapitre_edit', {'id': chapitre.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Bouton pour créer un nouveau chapitre -->
+        <a href="{{ path('app_chapitre_new') }}" class="btn btn-success mt-3">Create New</a>
+    </div>
+
+
+
+{% endblock %}

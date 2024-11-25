@@ -28,11 +28,8 @@ class Cours
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateFin = null;
 
-    /**
-     * @var Collection<int, Chapitre>
-     */
-    #[ORM\OneToMany(targetEntity: Chapitre::class, mappedBy: 'cours')]
-    private Collection $chapitres;
+    #[ORM\ManyToOne(inversedBy: 'cours')]
+    private ?Utilisateur $utilisateur = null;
 
     /**
      * @var Collection<int, Evaluation>
@@ -40,10 +37,16 @@ class Cours
     #[ORM\OneToMany(targetEntity: Evaluation::class, mappedBy: 'cours')]
     private Collection $evaluations;
 
+    /**
+     * @var Collection<int, Chapitre>
+     */
+    #[ORM\OneToMany(targetEntity: Chapitre::class, mappedBy: 'cours')]
+    private Collection $chapitres;
+
     public function __construct()
     {
-        $this->chapitres = new ArrayCollection();
         $this->evaluations = new ArrayCollection();
+        $this->chapitres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,32 +102,14 @@ class Cours
         return $this;
     }
 
-    /**
-     * @return Collection<int, Chapitre>
-     */
-    public function getChapitres(): Collection
+    public function getUtilisateur(): ?Utilisateur
     {
-        return $this->chapitres;
+        return $this->utilisateur;
     }
 
-    public function addChapitre(Chapitre $chapitre): static
+    public function setUtilisateur(?Utilisateur $utilisateur): static
     {
-        if (!$this->chapitres->contains($chapitre)) {
-            $this->chapitres->add($chapitre);
-            $chapitre->setCours($this);
-        }
-
-        return $this;
-    }
-
-    public function removeChapitre(Chapitre $chapitre): static
-    {
-        if ($this->chapitres->removeElement($chapitre)) {
-            // set the owning side to null (unless already changed)
-            if ($chapitre->getCours() === $this) {
-                $chapitre->setCours(null);
-            }
-        }
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
@@ -153,6 +138,36 @@ class Cours
             // set the owning side to null (unless already changed)
             if ($evaluation->getCours() === $this) {
                 $evaluation->setCours(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chapitre>
+     */
+    public function getChapitres(): Collection
+    {
+        return $this->chapitres;
+    }
+
+    public function addChapitre(Chapitre $chapitre): static
+    {
+        if (!$this->chapitres->contains($chapitre)) {
+            $this->chapitres->add($chapitre);
+            $chapitre->setCours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChapitre(Chapitre $chapitre): static
+    {
+        if ($this->chapitres->removeElement($chapitre)) {
+            // set the owning side to null (unless already changed)
+            if ($chapitre->getCours() === $this) {
+                $chapitre->setCours(null);
             }
         }
 

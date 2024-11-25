@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EvaluationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EvaluationRepository::class)]
@@ -14,10 +15,16 @@ class Evaluation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $titreEvalution = null;
+    private ?string $type = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $noteMaximale = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateEvaluation = null;
+
+    #[ORM\Column]
+    private ?float $noteMax = null;
+
+    #[ORM\ManyToOne(inversedBy: 'evaluations')]
+    private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'evaluations')]
     private ?Cours $cours = null;
@@ -27,26 +34,50 @@ class Evaluation
         return $this->id;
     }
 
-    public function getTitreEvalution(): ?string
+    public function getType(): ?string
     {
-        return $this->titreEvalution;
+        return $this->type;
     }
 
-    public function setTitreEvalution(string $titreEvalution): static
+    public function setType(string $type): static
     {
-        $this->titreEvalution = $titreEvalution;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getNoteMaximale(): ?string
+    public function getDateEvaluation(): ?\DateTimeInterface
     {
-        return $this->noteMaximale;
+        return $this->dateEvaluation;
     }
 
-    public function setNoteMaximale(string $noteMaximale): static
+    public function setDateEvaluation(\DateTimeInterface $dateEvaluation): static
     {
-        $this->noteMaximale = $noteMaximale;
+        $this->dateEvaluation = $dateEvaluation;
+
+        return $this;
+    }
+
+    public function getNoteMax(): ?float
+    {
+        return $this->noteMax;
+    }
+
+    public function setNoteMax(float $noteMax): static
+    {
+        $this->noteMax = $noteMax;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

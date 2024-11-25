@@ -63,4 +63,3 @@ class Chapitre
         return $this;
     }
 }
-

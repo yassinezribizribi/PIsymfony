@@ -5,25 +5,19 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         
         
-    <!-- ** Plugins Needed for the Project ** -->
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-    <!-- slick slider -->
-    <link rel="stylesheet" href="plugins/slick/slick.css">
-    <!-- themefy-icon -->
-    <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
-    <!-- animation css -->
-    <link rel="stylesheet" href="plugins/animate/animate.css">
-    <!-- aos -->
-    <link rel="stylesheet" href="plugins/aos/aos.css">
-    <!-- venobox popup -->
-    <link rel="stylesheet" href="plugins/venobox/venobox.css">
+    <!-- * Plugins Needed for the Project * -->
+    <link rel="stylesheet" href="{{ asset('plugins/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/slick/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/themify-icons/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/aos/aos.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/venobox/venobox.css') }}">
 
     <!-- Main Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   
     <!--Favicon-->
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
@@ -66,7 +60,7 @@
   <div class="navigation w-100">
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-light p-0">
-        <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
+        <a class="navbar-brand" href="index.html"><img src="{{ asset('images/logo.png') }}" alt="logo"></a>
         <button class="navbar-toggler rounded-0" type="button" data-toggle="collapse" data-target="#navigation"
           aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -81,7 +75,7 @@
               <a class="nav-link" href="{{path('page_about')}}">About</a>
             </li>
             <li class="nav-item @@courses">
-              <a class="nav-link" href="{{path('page_courses')}}">COURSES</a>
+              <a class="nav-link" href="{{path('app_cours_index')}}">COURSES</a>
             </li>
             <li class="nav-item @@events">
               <a class="nav-link" href="{{path('page_events')}}">EVENTS</a>
@@ -209,7 +203,7 @@
       <div class="row">
         <div class="col-lg-4 col-sm-8 mb-5 mb-lg-0">
           <!-- logo -->
-          <a class="logo-footer" href="index.html"><img class="img-fluid mb-4" src="images/logo.png" alt="logo"></a>
+          <a class="logo-footer" href="index.html"><img class="img-fluid mb-4" src={{ asset('images/logo.png') }} alt="logo"></a>
           <ul class="list-unstyled">
             <li class="mb-2">23621 15 Mile Rd #C104, Clinton MI, 48035, New York, USA</li>
             <li class="mb-2">+1 (2) 345 6789</li>
@@ -311,5 +305,5 @@
 
         {% endblock %}     
 
-    </body>
+    </body>
 </html>

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cours index{% endblock %}
+
+{% block body %}
+
+<br>
+<br>
+<br>
+    <div class="container mt-5">
+        <h1 class="mb-4">Cours </h1>
+
+        <!-- Table des cours -->
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>TitreCours</th>
+                    <th>DescriptionCours</th>
+                    <th>DateDebut</th>
+                    <th>DateFin</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for cour in cours %}
+                <tr>
+                    <td>{{ cour.id }}</td>
+                    <td>{{ cour.titreCours }}</td>
+                    <td>{{ cour.descriptionCours }}</td>
+                    <td>{{ cour.dateDebut ? cour.dateDebut|date('Y-m-d') : '' }}</td>
+                    <td>{{ cour.dateFin ? cour.dateFin|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <!-- Ajout des boutons avec Bootstrap -->
+                        <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="btn btn-info btn-sm">Show</a>
+                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Bouton pour créer un nouveau cours -->
+        <a href="{{ path('app_cours_new') }}" class="btn btn-success mt-3">Create New</a>
+    </div>
+
+
+
+{% endblock %}

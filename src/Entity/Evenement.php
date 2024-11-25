@@ -17,25 +17,25 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nomEven = null;
+    private ?string $titreEven = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $descriptionEven = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    private ?\DateTimeInterface $dateEvenement = null;
 
     #[ORM\Column(length: 255)]
     private ?string $lieu = null;
+
+    #[ORM\ManyToOne(inversedBy: 'evenements')]
+    private ?Utilisateur $utilisateur = null;
 
     /**
      * @var Collection<int, Participation>
      */
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement')]
     private Collection $participations;
-
-    #[ORM\ManyToOne(inversedBy: 'evenements')]
-    private ?Utilisateur $organisateurs = null;
 
     public function __construct()
     {
@@ -47,14 +47,14 @@ class Evenement
         return $this->id;
     }
 
-    public function getNomEven(): ?string
+    public function getTitreEven(): ?string
     {
-        return $this->nomEven;
+        return $this->titreEven;
     }
 
-    public function setNomEven(string $nomEven): static
+    public function setTitreEven(string $titreEven): static
     {
-        $this->nomEven = $nomEven;
+        $this->titreEven = $titreEven;
 
         return $this;
     }
@@ -64,21 +64,21 @@ class Evenement
         return $this->descriptionEven;
     }
 
-    public function setDescriptionEven(?string $descriptionEven): static
+    public function setDescriptionEven(string $descriptionEven): static
     {
         $this->descriptionEven = $descriptionEven;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDateEvenement(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->dateEvenement;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDateEvenement(\DateTimeInterface $dateEvenement): static
     {
-        $this->date = $date;
+        $this->dateEvenement = $dateEvenement;
 
         return $this;
     }
@@ -91,6 +91,18 @@ class Evenement
     public function setLieu(string $lieu): static
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
@@ -121,18 +133,6 @@ class Evenement
                 $participation->setEvenement(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getOrganisateurs(): ?Utilisateur
-    {
-        return $this->organisateurs;
-    }
-
-    public function setOrganisateurs(?Utilisateur $organisateurs): static
-    {
-        $this->organisateurs = $organisateurs;
 
         return $this;
     }
