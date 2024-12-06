@@ -1,18 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Cours{% endblock %}
+{% block title %}Modifier le cours : {{ cours.titreCours }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Cours</h1>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <div class="container mt-5">
+        <h1>Modifier le cours : {{ cours.titreCours }}</h1>
 
-    {{ include('cours/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.titreCours) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.descriptionCours) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.dateDebut) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.dateFin) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.image) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.typeContenu) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.contenu) }}
+                </div>
+                <!-- Ajout du champ pour le prix -->
+                <div class="col-md-6">
+                    {{ form_row(form.prix) }}
+                </div>
+            </div>
 
-    <a href="{{ path('app_cours_index') }}">back to list</a>
+            <div class="text-center mt-3">
+                <button class="btn btn-primary">Enregistrer les modifications</button>
+            </div>
+        {{ form_end(form) }}
 
-    {{ include('cours/_delete_form.html.twig') }}
-
-    
+        <div class="text-center mt-3">
+            <a href="{{ path('app_cours_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}
-
-
-

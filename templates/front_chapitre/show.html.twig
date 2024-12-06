@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du chapitre : {{ chapitre.titreChap }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center text-primary">{{ chapitre.titreChap }}</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">Contenu du chapitre</h4>
+                        <p class="card-text">{{ chapitre.contenuChap }}</p>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+
+        <div class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title">Informations supplémentaires</h4>
+                            <ul class="list-unstyled">
+                                <li><strong>Chapitre n° :</strong> {{ chapitre.id }}</li>
+                                <li><strong>Titre :</strong> {{ chapitre.titreChap }}</li>
+                                <li><strong>Contenu :</strong> {{ chapitre.contenuChap|slice(0, 100) ~ '...' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h4 class="card-title">Cours associé</h4>
+                            <p><strong>Titre du cours :</strong> {{ chapitre.cours.titreCours }}</p>
+                            <p><strong>Description :</strong> {{ chapitre.cours.descriptionCours }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('front_cours_show', {'id': chapitre.cours.id}) }}" class="btn btn-primary">Retour au cours</a>
+            <a href="{{ path('front_chapitre_index') }}" class="btn btn-secondary">Retour à la liste des chapitres</a>
+        </div>
+    </div>
+{% endblock %}

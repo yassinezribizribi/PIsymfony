@@ -51,6 +51,10 @@
                                         <th class="text-muted">Location</th>
                                         <td>{{ evenement.lieu }}</td>
                                     </tr>
+                                    <tr>
+                                         <th class="text-muted">Utilisateur</th>
+                                         <td>{{ evenement.utilisateur ? evenement.utilisateur.nom : 'Non défini' }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
 

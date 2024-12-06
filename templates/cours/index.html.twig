@@ -3,22 +3,28 @@
 {% block title %}Cours index{% endblock %}
 
 {% block body %}
-
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
     <div class="container mt-5">
-        <h1 class="mb-4">Cours </h1>
+        <h1 class="mb-4">Cours</h1>
 
         <!-- Table des cours -->
         <table class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th>Id</th>
-                    <th>TitreCours</th>
-                    <th>DescriptionCours</th>
-                    <th>DateDebut</th>
-                    <th>DateFin</th>
+                    <th>Image</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Type de Contenu</th>
+                    <th>Contenu</th>
+                    <th>Date Début</th>
+                    <th>Date Fin</th>
+                    <th>Prix</th> <!-- Nouvelle colonne pour le prix -->
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -26,28 +32,41 @@
             {% for cour in cours %}
                 <tr>
                     <td>{{ cour.id }}</td>
+                    <td>
+                        {% if cour.image %}
+                            <img src="{{ asset('uploads/images/' ~ cour.image) }}" alt="Image du cours" class="img-fluid">
+                        {% else %}
+                            Pas d'image
+                        {% endif %}
+                    </td>
                     <td>{{ cour.titreCours }}</td>
                     <td>{{ cour.descriptionCours }}</td>
+                    <td>{{ cour.typeContenu }}</td>
+                    <td>
+                        {% if cour.typeContenu == 'pdf' %}
+                            <a href="{{ asset('uploads/pdfs/' ~ cour.contenu) }}" target="_blank">Télécharger le PDF</a>
+                        {% elseif cour.typeContenu == 'video' %}
+                            <a href="{{ asset('uploads/videos/' ~ cour.contenu) }}" target="_blank">Voir la Vidéo</a>
+                        {% else %}
+                            Aucun contenu disponible
+                        {% endif %}
+                    </td>
                     <td>{{ cour.dateDebut ? cour.dateDebut|date('Y-m-d') : '' }}</td>
                     <td>{{ cour.dateFin ? cour.dateFin|date('Y-m-d') : '' }}</td>
+                    <td>{{ cour.prix ? cour.prix : 'Non spécifié' }}</td> <!-- Affichage du prix -->
                     <td>
-                        <!-- Ajout des boutons avec Bootstrap -->
                         <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="btn btn-info btn-sm">Show</a>
                         <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-warning btn-sm">Edit</a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6" class="text-center">No records found</td>
+                    <td colspan="10" class="text-center">Aucun cours disponible</td> <!-- Ajustement du colspan à 10 -->
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-        <!-- Bouton pour créer un nouveau cours -->
         <a href="{{ path('app_cours_new') }}" class="btn btn-success mt-3">Create New</a>
     </div>
-
-
-
 {% endblock %}

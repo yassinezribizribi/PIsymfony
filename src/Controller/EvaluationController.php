@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/evaluation')]
+#[Route('/admin/evaluation')]
 final class EvaluationController extends AbstractController{
     #[Route(name: 'app_evaluation_index', methods: ['GET'])]
     public function index(EvaluationRepository $evaluationRepository): Response

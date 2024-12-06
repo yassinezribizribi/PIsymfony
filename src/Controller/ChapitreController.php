@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/chapitre')]
+#[Route('/admin/chapitres')]
 final class ChapitreController extends AbstractController{
     #[Route(name: 'app_chapitre_index', methods: ['GET'])]
     public function index(ChapitreRepository $chapitreRepository): Response

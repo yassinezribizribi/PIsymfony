@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les Chapitres{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Tous les Chapitres</h1>
+
+        <div class="row">
+            {% for chapitre in chapitres %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ chapitre.titreChap }}</h5>
+                            <p class="card-text">{{ chapitre.contenuChap|slice(0, 100) }}...</p>
+                            <a href="{{ path('front_chapitre_show', {'id': chapitre.id}) }}" class="btn btn-info">Voir le chapitre</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <p class="text-center">Aucun chapitre disponible</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

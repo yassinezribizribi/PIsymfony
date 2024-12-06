@@ -1,314 +1,107 @@
 <!DOCTYPE html>
 <html>
     <head>
+    <!-- Autres balises head -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}My Website{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         
-        
-    <!-- * Plugins Needed for the Project * -->
-    <link rel="stylesheet" href="{{ asset('plugins/bootstrap/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/slick/slick.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/themify-icons/themify-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/animate/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/aos/aos.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/venobox/venobox.css') }}">
+        <!-- Plugins Stylesheets -->
+        <link rel="stylesheet" href="{{ asset('plugins/bootstrap/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/slick/slick.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/themify-icons/themify-icons.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/animate/animate.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/aos/aos.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/venobox/venobox.css') }}">
+        <!-- Main Stylesheet -->
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  
-    <!--Favicon-->
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-
-        {% block stylesheets %}
-        {% endblock %}
-
-
+        {% block stylesheets %}{% endblock %}
     </head>
     <body>
-<!-- header -->
-<header class="fixed-top header">
-  <!-- top header -->
-  <div class="top-header py-2 bg-white">
-    <div class="container">
-      <div class="row no-gutters">
-        <div class="col-lg-4 text-center text-lg-left">
-          <a class="text-color mr-3" href="callto:+443003030266"><strong>CALL</strong> +44 300 303 0266</a>
-          <ul class="list-inline d-inline">
-            <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-facebook"></i></a></li>
-            <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-twitter-alt"></i></a></li>
-            <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-linkedin"></i></a></li>
-            <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-instagram"></i></a></li>
-          </ul>
-        </div>
-        <div class="col-lg-8 text-center text-lg-right">
-          <ul class="list-inline">
-            <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="{{path('page_notice')}}">notice</a></li>
-            <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="{{path('page_research')}}">research</a></li>
-            <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="{{path('page_scholarship')}}">SCHOLARSHIP</a></li>
-            <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="#" data-toggle="modal" data-target="#loginModal">login</a></li>
-            <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="#" data-toggle="modal" data-target="#signupModal">register</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- navbar -->
-  <div class="navigation w-100">
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light p-0">
-        <a class="navbar-brand" href="index.html"><img src="{{ asset('images/logo.png') }}" alt="logo"></a>
-        <button class="navbar-toggler rounded-0" type="button" data-toggle="collapse" data-target="#navigation"
-          aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navigation">
-          <ul class="navbar-nav ml-auto text-center">
-            <li class="nav-item active">
-              <a href="{{path('app_home')}}" class="nav-link" >Home</a>
-            </li>
-            <li class="nav-item @@about">
-              <a class="nav-link" href="{{path('page_about')}}">About</a>
-            </li>
-            <li class="nav-item @@courses">
-              <a class="nav-link" href="{{path('app_cours_index')}}">COURSES</a>
-            </li>
-            <li class="nav-item @@courses">
-              <a class="nav-link" href="{{path('app_message_index')}}">message</a>
-            </li>
-            <li class="nav-item @@events">
-              <a class="nav-link" href="{{path('page_events')}}">EVENTS</a>
-            </li>
-            
-            <li class="nav-item dropdown view">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Pages
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{path('page_teacher')}}">Teacher</a>
-                <a class="dropdown-item" href="{{path('page_teacher_single')}}">Teacher Single</a>
-                <a class="dropdown-item" href="{{path('page_notice')}}">Notice</a>
-                <a class="dropdown-item" href="{{path('page_notice_single')}}">Notice Details</a>
-                <a class="dropdown-item" href="{{path('page_research')}}">Research</a>
-                <a class="dropdown-item" href="{{path('page_scholarship')}}">Scholarship</a>
-                <a class="dropdown-item" href="{{path('page_course-single')}}">Course Details</a>
-                <a class="dropdown-item" href="{{path('page_event-single')}}">Event Details</a>
-                <a class="dropdown-item" href="{{path('page_blog-single')}}">Blog Details</a>
-              </div>
-            </li>
-            <li class="nav-item @@contact">
-              <a class="nav-link" href="{{path('page_contact')}}">CONTACT</a>
-            </li>
-            <li class="nav-item @@blog">
-              <a class="nav-link" href="{{path('app_utilisateur_index')}}">Register</a>
-            </li>
-            
-          </ul>
-        </div>
-      </nav>
-    </div>
-  </div>
-</header>
-<!-- /header -->
-<!-- Modal -->
-<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded-0 border-0 p-4">
-            <div class="modal-header border-0">
-                <h3>Register</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="login">
-                    <form action="#" class="row">
-                        <div class="col-12">
-                            <input type="text" class="form-control mb-3" id="signupPhone" name="signupPhone" placeholder="Phone">
+        <!-- Header -->
+        <header class="fixed-top header">
+            <!-- Top Header -->
+            <div class="top-header py-2 bg-white">
+                <div class="container">
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 text-center text-lg-left">
+                            <a class="text-color mr-3" href="callto:+21671111222"><strong>CALL</strong> +216 71 111 222</a>
+                            <ul class="list-inline d-inline">
+                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-facebook"></i></a></li>
+                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-twitter-alt"></i></a></li>
+                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-linkedin"></i></a></li>
+                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-instagram"></i></a></li>
+                            </ul>
                         </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control mb-3" id="signupName" name="signupName" placeholder="Name">
+                        <div class="col-lg-8 text-center text-lg-right">
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+                            </ul>
                         </div>
-                        <div class="col-12">
-                            <input type="email" class="form-control mb-3" id="signupEmail" name="signupEmail" placeholder="Email">
-                        </div>
-                        <div class="col-12">
-                            <input type="password" class="form-control mb-3" id="signupPassword" name="signupPassword" placeholder="Password">
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary">SIGN UP</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content rounded-0 border-0 p-4">
-            <div class="modal-header border-0">
-                <h3>Login</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <!-- Navigation -->
+            <div class="navigation w-100">
+                <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light p-0">
+                        <a class="navbar-brand" href="{{ path('app_home') }}"><img src="{{ asset('images/logo.png') }}" alt="logo"></a>
+                        <button class="navbar-toggler rounded-0" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navigation">
+                            <ul class="navbar-nav ml-auto text-center">
+                                <li class="nav-item"><a href="{{ path('app_home') }}" class="nav-link">Home</a></li>
+                                <li class="nav-item"><a href="{{ path('page_about') }}" class="nav-link">About</a></li>
+                                <li class="nav-item"><a href="{{ path('front_cours_index') }}" class="nav-link">Courses</a></li>
+                                <li class="nav-item"><a href="{{ path('front_chapitre_index') }}" class="nav-link">Chapters</a></li>
+                                <li class="nav-item"><a href="{{ path('app_message_index') }}" class="nav-link">Messages</a></li>
+                                <li class="nav-item"><a href="{{ path('app_evenement_index') }}" class="nav-link">Events</a></li>
+                                <li class="nav-item"><a href="{{ path('page_contact') }}" class="nav-link">Contact</a></li>
+                                <li class="nav-item"><a href="{{ path('app_utilisateur_new') }}" class="nav-link">Register</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
             </div>
-            <div class="modal-body">
-                <form action="#" class="row">
-                    <div class="col-12">
-                        <input type="text" class="form-control mb-3" id="loginPhone" name="loginPhone" placeholder="Phone">
-                    </div>
-                    <div class="col-12">
-                        <input type="text" class="form-control mb-3" id="loginName" name="loginName" placeholder="Name">
-                    </div>
-                    <div class="col-12">
-                        <input type="password" class="form-control mb-3" id="loginPassword" name="loginPassword" placeholder="Password">
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">LOGIN</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
+        </header>
+        <!-- Main Content -->
         {% block body %}{% endblock %}
-    <!-- footer -->
-    <footer>
-  <!-- newsletter -->
-  <div class="newsletter">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9 ml-auto bg-primary py-5 newsletter-block">
-          <h3 class="text-white">Subscribe Now</h3>
-          <form action="#">
-            <div class="input-wrapper">
-              <input type="email" class="form-control border-0" id="newsletter" name="newsletter" placeholder="Enter Your Email...">
-              <button type="submit" value="send" class="btn btn-primary">Join</button>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer bg-footer section border-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-8 mb-5">
+                            <a class="logo-footer" href="{{ path('app_home') }}"><img class="img-fluid mb-4" src="{{ asset('images/logo.png') }}" alt="logo"></a>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">+1 (2) 345 6789</li>
+                                <li class="mb-2">contact@yourdomain.com</li>
+                            </ul>
+                        </div>
+                        <!-- Links -->
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-5">
+                            <h4 class="text-white mb-5">Links</h4>
+                            <ul class="list-unstyled">
+                                <li class="mb-3"><a class="text-color" href="{{ path('front_cours_index') }}">Courses</a></li>
+                                <li class="mb-3"><a class="text-color" href="{{ path('app_evenement_index') }}">Events</a></li>
+                                <li class="mb-3"><a class="text-color" href="{{ path('page_contact') }}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- footer content -->
-  <div class="footer bg-footer section border-bottom">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 col-sm-8 mb-5 mb-lg-0">
-          <!-- logo -->
-          <a class="logo-footer" href="index.html"><img class="img-fluid mb-4" src={{ asset('images/logo.png') }} alt="logo"></a>
-          <ul class="list-unstyled">
-            <li class="mb-2">23621 15 Mile Rd #C104, Clinton MI, 48035, New York, USA</li>
-            <li class="mb-2">+1 (2) 345 6789</li>
-            <li class="mb-2">+1 (2) 345 6789</li>
-            <li class="mb-2">contact@yourdomain.com</li>
-          </ul>
-        </div>
-        <!-- company -->
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-5 mb-md-0">
-          <h4 class="text-white mb-5">COMPANY</h4>
-          <ul class="list-unstyled">
-            <li class="mb-3"><a class="text-color" href="about.html">About Us</a></li>
-            <li class="mb-3"><a class="text-color" href="teacher.html">Our Teacher</a></li>
-            <li class="mb-3"><a class="text-color" href="contact.html">Contact</a></li>
-            <li class="mb-3"><a class="text-color" href="blog.html">Blog</a></li>
-          </ul>
-        </div>
-        <!-- links -->
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-5 mb-md-0">
-          <h4 class="text-white mb-5">LINKS</h4>
-          <ul class="list-unstyled">
-            <li class="mb-3"><a class="text-color" href="courses.html">Courses</a></li>
-            <li class="mb-3"><a class="text-color" href="event.html">Events</a></li>
-            <li class="mb-3"><a class="text-color" href="gallary.html">Gallary</a></li>
-            <li class="mb-3"><a class="text-color" href="faqs.html">FAQs</a></li>
-          </ul>
-        </div>
-        <!-- support -->
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-5 mb-md-0">
-          <h4 class="text-white mb-5">SUPPORT</h4>
-          <ul class="list-unstyled">
-            <li class="mb-3"><a class="text-color" href="#">Forums</a></li>
-            <li class="mb-3"><a class="text-color" href="#">Documentation</a></li>
-            <li class="mb-3"><a class="text-color" href="#">Language</a></li>
-            <li class="mb-3"><a class="text-color" href="#">Release Status</a></li>
-          </ul>
-        </div>
-        <!-- support -->
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-5 mb-md-0">
-          <h4 class="text-white mb-5">RECOMMEND</h4>
-          <ul class="list-unstyled">
-            <li class="mb-3"><a class="text-color" href="#">WordPress</a></li>
-            <li class="mb-3"><a class="text-color" href="#">LearnPress</a></li>
-            <li class="mb-3"><a class="text-color" href="#">WooCommerce</a></li>
-            <li class="mb-3"><a class="text-color" href="#">bbPress</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- copyright -->
-  <div class="copyright py-4 bg-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-7 text-sm-left text-center">
-          <p class="mb-0">Copyright
-            <script>
-              var CurrentYear = new Date().getFullYear()
-              document.write(CurrentYear)
-            </script> 
-            © Theme By <a href="https://themefisher.com">themefisher.com</a></p> . All Rights Reserved.
-        </div>
-        <div class="col-sm-5 text-sm-right text-center">
-          <ul class="list-inline">
-            <li class="list-inline-item"><a class="d-inline-block p-2" href="https://www.facebook.com/themefisher"><i class="ti-facebook text-primary"></i></a></li>
-            <li class="list-inline-item"><a class="d-inline-block p-2" href="https://www.twitter.com/themefisher"><i class="ti-twitter-alt text-primary"></i></a></li>
-            <li class="list-inline-item"><a class="d-inline-block p-2" href="#"><i class="ti-instagram text-primary"></i></a></li>
-            <li class="list-inline-item"><a class="d-inline-block p-2" href="https://dribbble.com/themefisher"><i class="ti-dribbble text-primary"></i></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-    </footer>
-    <!-- /footer -->
+        </footer>
 
-
-
-    <!-- jQuery -->
-    <script src="plugins/jQuery/jquery.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="plugins/bootstrap/bootstrap.min.js"></script>
-    <!-- slick slider -->
-    <script src="plugins/slick/slick.min.js"></script>
-    <!-- aos -->
-    <script src="plugins/aos/aos.js"></script>
-    <!-- venobox popup -->
-    <script src="plugins/venobox/venobox.min.js"></script>
-    <!-- mixitup filter -->
-    <script src="plugins/mixitup/mixitup.min.js"></script>
-    <!-- google map -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU&libraries=places"></script>
-    <script src="plugins/google-map/gmap.js"></script>
-
-    <!-- Main Script -->
-    <script src="js/script.js"></script>
-
-        {% block javascripts %}
-
-        {% endblock %}     
-
-    </body>
+        <!-- Scripts -->
+        <script src="{{ asset('plugins/jQuery/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/bootstrap/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('plugins/slick/slick.min.js') }}"></script>
+        <script src="{{ asset('plugins/aos/aos.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
 </html>

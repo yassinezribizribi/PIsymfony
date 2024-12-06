@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue des Cours{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <h1 class="mb-5 text-center text-uppercase font-weight-bold text-primary">Explorez Nos Cours</h1>
+
+    <div class="row">
+        {% for cour in cours %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-lg border-0 rounded-lg overflow-hidden h-100 hover-effect">
+                    <!-- Image du cours -->
+                    <div class="card-img-top position-relative">
+                        {% if cour.image %}
+                            <img src="{{ asset('uploads/images/' ~ cour.image) }}" alt="Image du cours {{ cour.titreCours }}" class="img-fluid w-100" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px;">
+                                <p class="text-muted mb-0">Image indisponible</p>
+                            </div>
+                        {% endif %}
+                        <!-- Ruban pour le prix -->
+                        <span class="badge badge-primary position-absolute" style="top: 10px; left: 10px; font-size: 0.9rem;">
+                            {{ cour.prix }} € 
+                        </span>
+                    </div>
+
+                    <!-- Contenu du cours -->
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-dark font-weight-bold">{{ cour.titreCours }}</h5>
+                        <p class="card-text text-muted mb-3" style="font-size: 0.95rem; line-height: 1.5;">
+                            {{ cour.descriptionCours|slice(0, 120) ~ '...' }}
+                        </p>
+
+                        <!-- Informations supplémentaires -->
+                        <p class="card-text text-muted mb-3">
+                            {% if cour.dateDebut %}
+                                <strong>Début :</strong> {{ cour.dateDebut|date('d/m/Y') }}
+                            {% endif %}
+                            {% if cour.dateFin %}
+                                <strong> | Fin :</strong> {{ cour.dateFin|date('d/m/Y') }}
+                            {% endif %}
+                        </p>
+
+                        <!-- Bouton -->
+                        <a href="{{ path('front_cours_show', {'id': cour.id}) }}" class="btn btn-outline-primary mt-auto btn-block rounded-pill font-weight-bold text-uppercase">
+                            Voir Détails
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <p class="text-center text-danger font-weight-bold">Aucun cours disponible pour le moment.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du cours : {{ cours.titreCours }}{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="row no-gutters">
+            <!-- Image -->
+            <div class="col-md-6">
+                {% if cours.image %}
+                    <img src="{{ asset('uploads/images/' ~ cours.image) }}" alt="Image du cours {{ cours.titreCours }}" class="img-fluid rounded-left" style="object-fit: cover; height: 100%;">
+                {% else %}
+                    <div class="d-flex justify-content-center align-items-center bg-light h-100" style="min-height: 300px;">
+                        <p class="text-muted">Aucune image disponible</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Informations -->
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h2 class="card-title text-primary font-weight-bold">{{ cours.titreCours }}</h2>
+                    <p class="card-text text-muted">{{ cours.descriptionCours|raw }}</p>
+
+                    <hr>
+                    <h4 class="text-secondary">Dates du cours</h4>
+                    <ul class="list-unstyled">
+                        <li><strong>Date de début :</strong> {{ cours.dateDebut ? cours.dateDebut|date('d-m-Y') : 'Non spécifiée' }}</li>
+                        <li><strong>Date de fin :</strong> {{ cours.dateFin ? cours.dateFin|date('d-m-Y') : 'Non spécifiée' }}</li>
+                    </ul>
+                    <hr>
+
+                    <h3 class="text-primary">Prix : <span class="badge badge-warning">{{ cours.prix }} €</span></h3>
+
+                    <!-- Acheter bouton -->
+                    <div class="mt-4">
+                        <a href="{{ path('front_cours_acheter', {'id': cours.id}) }}" class="btn btn-warning btn-lg btn-block text-uppercase font-weight-bold">
+                            Acheter ce cours
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu additionnel -->
+    <div class="mt-5">
+        <h3 class="text-primary">Contenu du cours</h3>
+        <div class="mt-3">
+            {% if cours.contenu %}
+                {% if cours.contenu|lower matches '/\.pdf$/' %}
+                    <a href="{{ asset('uploads/cours/' ~ cours.contenu) }}" class="btn btn-outline-success btn-lg" download>
+                        <i class="fas fa-file-pdf"></i> Télécharger le PDF
+                    </a>
+                {% elseif cours.contenu|lower matches '/\.mp4$/' %}
+                    <video width="100%" height="auto" controls class="rounded shadow">
+                        <source src="{{ asset('uploads/cours/' ~ cours.contenu) }}" type="video/mp4">
+                        Votre navigateur ne supporte pas la balise vidéo.
+                    </video>
+                {% else %}
+                    <p class="text-muted">Contenu non pris en charge.</p>
+                {% endif %}
+            {% else %}
+                <p class="text-danger font-weight-bold">Aucun contenu disponible pour ce cours.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Retour -->
+    <div class="mt-5 text-center">
+        <a href="{{ path('front_cours_index') }}" class="btn btn-outline-primary btn-lg text-uppercase font-weight-bold">
+            <i class="fas fa-arrow-left"></i> Retour à la liste des cours
+        </a>
+    </div>
+</div>
+{% endblock %}
