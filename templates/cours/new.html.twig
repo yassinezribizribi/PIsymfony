@@ -3,42 +3,84 @@
 {% block title %}Ajouter un nouveau cours{% endblock %}
 
 {% block body %}
-
 <br><br><br><br><br><br>
-<div class="container mt-5">
-    <h1>Ajouter un nouveau cours</h1>
+<br><br><br><br><br><br>
 
-    {{ form_start(form) }}
-        <div class="row">
+<div class="container mt-5 mb-5">
+    <h1 class="text-center text-primary mb-4">Ajouter un Nouveau Cours</h1>
+
+    <div class="card shadow-sm p-4 border-0 rounded-lg">
+        {{ form_start(form) }}
+        <div class="row gy-3">
+            <!-- Titre du cours -->
             <div class="col-md-6">
-                {{ form_row(form.titreCours) }}
+                <div class="form-group">
+                    <label for="titreCours" class="form-label fw-bold">Titre du cours :</label>
+                    {{ form_widget(form.titreCours, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                </div>
             </div>
+            
+            <!-- Description -->
             <div class="col-md-6">
-                {{ form_row(form.descriptionCours) }}
+                <div class="form-group">
+                    <label for="descriptionCours" class="form-label fw-bold">Description du cours :</label>
+                    {{ form_widget(form.descriptionCours, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                </div>
             </div>
+
+            <!-- Date de début -->
             <div class="col-md-6">
-                {{ form_row(form.dateDebut) }}
+                <div class="form-group">
+                    <label for="dateDebut" class="form-label fw-bold">Date de début :</label>
+                    {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control shadow-sm js-datepicker', 'placeholder': 'Choisir une date'}}) }}
+                </div>
             </div>
+
+            <!-- Date de fin -->
             <div class="col-md-6">
-                {{ form_row(form.dateFin) }}
+                <div class="form-group">
+                    <label for="dateFin" class="form-label fw-bold">Date de fin :</label>
+                    {{ form_widget(form.dateFin, {'attr': {'class': 'form-control shadow-sm js-datepicker', 'placeholder': 'Choisir une date'}}) }}
+                </div>
             </div>
+
+            <!-- Image -->
             <div class="col-md-6">
-                {{ form_row(form.image) }}
+                <div class="form-group">
+                    <label for="image" class="form-label fw-bold">Image du cours :</label>
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                </div>
             </div>
+
+            <!-- Type de contenu -->
             <div class="col-md-6">
-                {{ form_row(form.typeContenu) }}
+                <div class="form-group">
+                    <label for="typeContenu" class="form-label fw-bold">Type de contenu :</label>
+                    {{ form_widget(form.typeContenu, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                </div>
             </div>
+
+            <!-- Contenu (fichier PDF ou vidéo) -->
             <div class="col-md-6">
-                {{ form_row(form.contenu) }}
+                <div class="form-group">
+                    <label for="contenu" class="form-label fw-bold">Contenu du cours :</label>
+                    {{ form_widget(form.contenu, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                </div>
             </div>
+
+            <!-- Prix -->
             <div class="col-md-6">
-                {{ form_row(form.prix) }}  <!-- Ajouter le champ prix ici -->
+                <div class="form-group">
+                    <label for="prix" class="form-label fw-bold">Prix du cours :</label>
+                    {{ form_widget(form.prix, {'attr': {'class': 'form-control shadow-sm', 'placeholder': 'Entrez le prix en euros'}}) }}
+                </div>
             </div>
         </div>
 
-        <div class="text-center mt-3">
-            <button class="btn btn-primary">Ajouter</button>
+        <div class="text-center mt-4">
+            <button class="btn btn-success btn-lg shadow-sm px-4">Ajouter le cours</button>
         </div>
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+    </div>
 </div>
 {% endblock %}

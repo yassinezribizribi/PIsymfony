@@ -3,20 +3,14 @@
 {% block title %}Catalogue des Cours{% endblock %}
 
 {% block body %}
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<br><br><br><br><br><br><br>
 <div class="container mt-5">
     <h1 class="mb-5 text-center text-uppercase font-weight-bold text-primary">Explorez Nos Cours</h1>
 
     <div class="row">
         {% for cour in cours %}
             <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card shadow-lg border-0 rounded-lg overflow-hidden h-100 hover-effect">
+                <div class="card shadow-lg border-0 rounded-lg overflow-hidden h-100">
                     <!-- Image du cours -->
                     <div class="card-img-top position-relative">
                         {% if cour.image %}
@@ -27,7 +21,7 @@
                             </div>
                         {% endif %}
                         <!-- Ruban pour le prix -->
-                        <span class="badge badge-primary position-absolute" style="top: 10px; left: 10px; font-size: 0.9rem;">
+                        <span class="badge" style="position: absolute; top: 10px; left: 10px; font-size: 1rem; font-weight: bold; padding: 0.5rem 1rem; background-color: #f4f4f4; color: #1e1e4b; border: 1px solid #1e1e4b;">
                             {{ cour.prix }} € 
                         </span>
                     </div>
@@ -50,7 +44,9 @@
                         </p>
 
                         <!-- Bouton -->
-                        <a href="{{ path('front_cours_show', {'id': cour.id}) }}" class="btn btn-outline-primary mt-auto btn-block rounded-pill font-weight-bold text-uppercase">
+                        <a href="{{ path('front_cours_show', {'id': cour.id}) }}" 
+                           class="btn mt-auto btn-block rounded-pill font-weight-bold text-uppercase"
+                           style="background-color: #1e1e4b; color: #ffffff; border: 1px solid #1e1e4b;">
                             Voir Détails
                         </a>
                     </div>

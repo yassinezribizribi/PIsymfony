@@ -4,54 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paiement - {{ cours.titreCours }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        .header h1 {
+            color: #007bff;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .card-body {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: none;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-primary, .btn-success {
+            background-color: #007bff;
+            border-radius: 25px;
+            padding: 14px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            transform: scale(1.05);
+            background-color: #0056b3;
+        }
+
+        .alert {
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 16px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: #1e1e4b;
+            color: #fff;
+            padding: 50px 0;
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+            border-top: 2px solid #f8c146;
+        }
+
+        .footer a {
+            color: #f8c146;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        .footer p {
+            color: #d9d9d9;
+            font-size: 14px;
+        }
+
+        .payment-message {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .payment-message .alert {
+            margin: 0 auto;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .payment-form-container {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            margin: 0 15px;
+        }
+    </style>
 </head>
 <body>
+
     <div class="container mt-5">
-        <h1 class="mb-4 text-center text-primary">Payer pour le cours : {{ cours.titreCours }}</h1>
+        <div class="header text-center">
+            <h1>Paiement pour le cours : <span style="color: #007bff;">{{ cours.titreCours }}</span></h1>
+        </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="card shadow-sm">
+                <div class="card payment-form-container">
                     <div class="card-body">
-                        <h4 class="card-title text-success">Détails du cours</h4>
+                        <h4 class="card-title text-center">Détails du cours</h4>
                         <p><strong>Description :</strong> {{ cours.descriptionCours }}</p>
-                        <p><strong>Prix :</strong> {{ cours.prix }} €</p>
+                        <p><strong>Prix :</strong> <span style="font-size: 1.5rem; color: #007bff;">{{ cours.prix }} €</span></p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-6">
-                <h4 class="text-info">Informations de paiement</h4>
-                <!-- Formulaire de paiement -->
-                <form id="payment-form" method="POST" action="#">
-                    <div class="form-group">
-                        <label for="cardName">Nom sur la carte :</label>
-                        <input type="text" id="cardName" class="form-control" placeholder="John Doe" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cardNumber">Numéro de carte :</label>
-                        <input type="text" id="cardNumber" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="expiryDate">Date d'expiration :</label>
-                        <input type="text" id="expiryDate" class="form-control" placeholder="MM/AA" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cvv">Code CVV :</label>
-                        <input type="text" id="cvv" class="form-control" placeholder="XXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Adresse email :</label>
-                        <input type="email" id="email" class="form-control" placeholder="email@example.com" required>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-block">Procéder au paiement</button>
-                </form>
+                <div class="payment-form-container">
+                    <h4 class="text-info text-center mb-4">Informations de paiement</h4>
+
+                    <!-- Formulaire de paiement -->
+                    <form id="payment-form">
+                        <div class="form-group">
+                            <label for="cardName">Nom sur la carte :</label>
+                            <input type="text" id="cardName" class="form-control" placeholder="John Doe" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardNumber">Numéro de carte :</label>
+                            <input type="text" id="cardNumber" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expiryDate">Date d'expiration :</label>
+                            <input type="text" id="expiryDate" class="form-control" placeholder="MM/AA" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cvv">Code CVV :</label>
+                            <input type="text" id="cvv" class="form-control" placeholder="XXX" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Adresse email :</label>
+                            <input type="email" id="email" class="form-control" placeholder="email@example.com" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-block">Procéder au paiement</button>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- Message de confirmation ou d'erreur -->
-        <div id="paymentMessage" class="mt-4 text-center" style="display: none;">
+        <div id="paymentMessage" class="payment-message">
             <div id="successMessage" class="alert alert-success" style="display: none;">
                 <strong>Succès !</strong> Votre paiement a été effectué avec succès.
             </div>
@@ -60,10 +185,20 @@
             </div>
         </div>
 
-        <div class="mt-4 text-center">
+        <div class="text-center mt-4">
             <a href="{{ path('front_cours_index') }}" class="btn btn-primary">Retour à la liste des cours</a>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>&copy; {{ "now"|date("Y") }} Educenter. Tous droits réservés.</p>
+        <div class="footer-links">
+            <a href="#">Accueil</a>
+            <a href="#">À propos</a>
+            <a href="#">Cours</a>
+            <a href="#">Contact</a>
+        </div>
+    </footer>
 
     <script>
         document.getElementById('payment-form').addEventListener('submit', function(event) {
@@ -88,8 +223,8 @@
         function showPaymentMessage(success) {
             document.getElementById('paymentMessage').style.display = 'block';
             document.getElementById('successMessage').style.display = success ? 'block' : 'none';
-            document.getElementById('errorMessage').style.display = success ? 'none' : 'block';
-        }
+            document.getElementById('errorMessage').
+
     </script>
 </body>
 </html>

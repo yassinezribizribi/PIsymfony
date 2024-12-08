@@ -1,72 +1,112 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cours index{% endblock %}
+{% block title %}Gestion des Cours{% endblock %}
 
 {% block body %}
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-    <div class="container mt-5">
-        <h1 class="mb-4">Cours</h1>
+<br><br><br><br><br><br>
 
-        <!-- Table des cours -->
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Image</th>
-                    <th>Titre</th>
-                    <th>Description</th>
-                    <th>Type de Contenu</th>
-                    <th>Contenu</th>
-                    <th>Date Début</th>
-                    <th>Date Fin</th>
-                    <th>Prix</th> <!-- Nouvelle colonne pour le prix -->
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for cour in cours %}
-                <tr>
-                    <td>{{ cour.id }}</td>
-                    <td>
-                        {% if cour.image %}
-                            <img src="{{ asset('uploads/images/' ~ cour.image) }}" alt="Image du cours" class="img-fluid">
-                        {% else %}
-                            Pas d'image
-                        {% endif %}
-                    </td>
-                    <td>{{ cour.titreCours }}</td>
-                    <td>{{ cour.descriptionCours }}</td>
-                    <td>{{ cour.typeContenu }}</td>
-                    <td>
-                        {% if cour.typeContenu == 'pdf' %}
-                            <a href="{{ asset('uploads/pdfs/' ~ cour.contenu) }}" target="_blank">Télécharger le PDF</a>
-                        {% elseif cour.typeContenu == 'video' %}
-                            <a href="{{ asset('uploads/videos/' ~ cour.contenu) }}" target="_blank">Voir la Vidéo</a>
-                        {% else %}
-                            Aucun contenu disponible
-                        {% endif %}
-                    </td>
-                    <td>{{ cour.dateDebut ? cour.dateDebut|date('Y-m-d') : '' }}</td>
-                    <td>{{ cour.dateFin ? cour.dateFin|date('Y-m-d') : '' }}</td>
-                    <td>{{ cour.prix ? cour.prix : 'Non spécifié' }}</td> <!-- Affichage du prix -->
-                    <td>
-                        <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="btn btn-info btn-sm">Show</a>
-                        <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-warning btn-sm">Edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="10" class="text-center">Aucun cours disponible</td> <!-- Ajustement du colspan à 10 -->
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<div class="container-fluid mt-5">
+    <h1 class="mb-4 text-center text-uppercase font-weight-bold" style="color: #1e1e4b;">Liste des Cours</h1>
 
-        <a href="{{ path('app_cours_new') }}" class="btn btn-success mt-3">Create New</a>
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+        </div>
+        <div class="card-body p-4">
+            <!-- Table responsive -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle table-striped table-bordered" style="width: 100%; font-size: 0.9rem;">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th class="text-center" style="width: 5%;">Id</th>
+                            <th class="text-center" style="width: 10%;">Image</th>
+                            <th class="text-center" style="width: 15%;">Titre</th>
+                            <th class="text-center" style="width: 25%;">Description</th>
+                            <th class="text-center" style="width: 10%;">Type de Contenu</th>
+                            <th class="text-center" style="width: 10%;">Contenu</th>
+                            <th class="text-center" style="width: 10%;">Date Début</th>
+                            <th class="text-center" style="width: 10%;">Date Fin</th>
+                            <th class="text-center" style="width: 10%;">Prix</th>
+                            <th class="text-center" style="width: 15%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cour in cours %}
+                            <tr>
+                                <!-- Id -->
+                                <td class="text-center font-weight-bold">{{ cour.id }}</td>
+
+                                <!-- Image -->
+                                <td class="text-center">
+                                    {% if cour.image %}
+                                        <img src="{{ asset('uploads/images/' ~ cour.image) }}" alt="Image du cours {{ cour.titreCours }}" class="rounded" style="max-width: 160px; max-height: 100px; object-fit: cover;">
+                                    {% else %}
+                                        <span class="text-muted">Aucune image</span>
+                                    {% endif %}
+                                </td>
+
+                                <!-- Titre -->
+                                <td class="text-center">
+                                    <span class="font-weight-bold">{{ cour.titreCours }}</span>
+                                </td>
+
+                                <!-- Description -->
+                                <td class="text-muted">
+                                    {{ cour.descriptionCours|slice(0, 100) ~ '...' }}
+                                </td>
+
+                                <!-- Type de Contenu -->
+                                <td class="text-center">
+                                    <span class="badge bg-info text-dark">{{ cour.typeContenu|capitalize }}</span>
+                                </td>
+
+                                <!-- Contenu -->
+                                <td class="text-center">
+                                    {% if cour.typeContenu == 'pdf' %}
+                                        <a href="{{ asset('uploads/pdfs/' ~ cour.contenu) }}" target="_blank" class="btn btn-sm btn-outline-success">Télécharger</a>
+                                    {% elseif cour.typeContenu == 'video' %}
+                                        <a href="{{ asset('uploads/videos/' ~ cour.contenu) }}" target="_blank" class="btn btn-sm btn-outline-primary">Voir</a>
+                                    {% else %}
+                                        <span class="text-muted">Non disponible</span>
+                                    {% endif %}
+                                </td>
+
+                                <!-- Date Début -->
+                                <td class="text-center">
+                                    <span class="text-primary">{{ cour.dateDebut ? cour.dateDebut|date('d/m/Y') : 'N/A' }}</span>
+                                </td>
+
+                                <!-- Date Fin -->
+                                <td class="text-center">
+                                    <span class="text-danger">{{ cour.dateFin ? cour.dateFin|date('d/m/Y') : 'N/A' }}</span>
+                                </td>
+
+                                <!-- Prix -->
+                                <td class="text-center">
+                                    <span class="badge" style="background-color: #1e1e4b; font-size: 1rem;">{{ cour.prix ? cour.prix ~ ' €' : 'Non spécifié' }}</span>
+                                </td>
+
+                                <!-- Actions -->
+                                <td class="text-center">
+                                    <a href="{{ path('app_cours_show', {'id': cour.id}) }}" class="btn btn-sm btn-outline-info me-2">Détails</a>
+                                    <a href="{{ path('app_cours_edit', {'id': cour.id}) }}" class="btn btn-sm btn-outline-warning">Modifier</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="10" class="text-center text-danger font-weight-bold">Aucun cours disponible</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bouton Ajouter -->
+        <div class="card-footer d-flex justify-content-center">
+            <a href="{{ path('app_cours_new') }}" class="btn btn-success rounded-pill px-5 py-2 shadow">
+                <i class="fas fa-plus-circle"></i> Ajouter un Nouveau Cours
+            </a>
+        </div>
     </div>
+</div>
 {% endblock %}

@@ -70,31 +70,41 @@
         <!-- Main Content -->
         {% block body %}{% endblock %}
 
-        <!-- Footer -->
-        <footer>
-            <div class="footer bg-footer section border-bottom">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4 col-sm-8 mb-5">
-                            <a class="logo-footer" href="{{ path('app_home') }}"><img class="img-fluid mb-4" src="{{ asset('images/logo.png') }}" alt="logo"></a>
-                            <ul class="list-unstyled">
-                                <li class="mb-2">+1 (2) 345 6789</li>
-                                <li class="mb-2">contact@yourdomain.com</li>
-                            </ul>
-                        </div>
-                        <!-- Links -->
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-5">
-                            <h4 class="text-white mb-5">Links</h4>
-                            <ul class="list-unstyled">
-                                <li class="mb-3"><a class="text-color" href="{{ path('front_cours_index') }}">Courses</a></li>
-                                <li class="mb-3"><a class="text-color" href="{{ path('app_evenement_index') }}">Events</a></li>
-                                <li class="mb-3"><a class="text-color" href="{{ path('page_contact') }}">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+   <footer class="py-4" style="background-color: #1e1e4b; color: #fff;">
+    <div class="container text-center">
+        <!-- Logo centré -->
+        <div class="mb-3">
+            <img src="{{ asset('uploads/images/edu.png') }}" alt="Educenter" class="img-fluid" style="max-height: 50px; border: none; box-shadow: none; background-color: #1e1e4b;">
+        </div>
+
+        <!-- Liens sous forme de ligne -->
+        <div class="mb-3">
+            <nav>
+                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Accueil</a>
+                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">À propos</a>
+                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Cours</a>
+                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Contact</a>
+            </nav>
+        </div>
+
+        <!-- Section Contactez-nous -->
+        <div>
+            <p class="mb-1" style="font-size: 1rem; color: #d9d9d9;">Contactez-nous :</p>
+            <p class="font-weight-bold" style="color: #f8c146; font-size: 1.2rem;">+216 99 123 456</p>
+        </div>
+
+        <!-- Copyright -->
+        <div class="mt-3">
+            <small style="color: #d9d9d9;">&copy; {{ "now"|date("Y") }} Educenter. Tous droits réservés.</small>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
 
         <!-- Scripts -->
         <script src="{{ asset('plugins/jQuery/jquery.min.js') }}"></script>
