@@ -9,50 +9,16 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4 text-center text-primary">Acheter le cours : {{ cours.titreCours }}</h1>
+        <h1 class="mb-4 text-center text-primary">Détails du paiement</h1>
 
-        <!-- Affichage des messages flash -->
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% for message in app.flashes('error') %}
-            <div class="alert alert-danger">
-                {{ message }}
-            </div>
-        {% endfor %}
+        <div class="alert alert-info text-center">
+            Ce cours coûte <strong>{{ cours.prix }} €</strong>. Cliquez sur "Acheter maintenant" pour finaliser votre paiement.
+        </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title">Détails du cours</h4>
-                        <p><strong>Description :</strong> {{ cours.descriptionCours }}</p>
-                        <p><strong>Prix :</strong> {{ cours.prix }} €</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <h3>Informations de paiement</h3>
-                <!-- Formulaire de paiement simulé -->
-                <form id="payment-form" method="POST">
-                    <div class="form-group">
-                        <label for="cardNumber">Numéro de carte :</label>
-                        <input type="text" name="cardNumber" id="cardNumber" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="expiryDate">Date d'expiration :</label>
-                        <input type="text" name="expiryDate" id="expiryDate" class="form-control" placeholder="MM/AA" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cvv">CVV :</label>
-                        <input type="text" name="cvv" id="cvv" class="form-control" placeholder="XXX" required>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-block">Procéder au paiement</button>
-                </form>
-            </div>
+        <div class="text-center">
+            <a href="{{ path('front_cours_acheter', {id: cours.id}) }}" class="btn btn-success btn-lg">
+                Acheter maintenant
+            </a>
         </div>
 
         <div class="mt-4 text-center">

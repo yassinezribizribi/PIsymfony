@@ -12,6 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 
 #[Route('/admin/cours')]
@@ -152,6 +157,32 @@ public function edit(Request $request, Cours $cour, EntityManagerInterface $enti
         }
 
         return $this->redirectToRoute('app_cours_index');
+    }
+
+    #[Route('/front/cours/{id}/paiement', name: 'front_cours_paiement', methods: ['POST'])]
+    public function createPaiementSession(Cours $cours): JsonResponse
+    {
+        Stripe::setApiKey($this->getParameter('stripe_secret_key')); // Clé secrète Stripe
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => $cours->getTitreCours(),
+                        'description' => $cours->getDescriptionCours(),
+                    ],
+                    'unit_amount' => $cours->getPrix() * 100, // Prix en centimes
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $this->generateUrl('front_cours_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $this->generateUrl('front_cours_paiement', ['id' => $cours->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
+
+        return new JsonResponse(['id' => $session->id]);
     }
     
 }
