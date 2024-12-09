@@ -19,8 +19,8 @@ class CoursRepository extends ServiceEntityRepository
     public function findBySearch(string $search): array
 {
     $qb = $this->createQueryBuilder('c')
-        ->where('c.titreCours LIKE :search')  // Filtre par le titre du cours
-        ->setParameter('search', '%' . $search . '%') // Utilisation du LIKE pour la recherche
+        ->where('c.titreCours LIKE :search')  
+        ->setParameter('search', '%' . $search . '%') 
         ->getQuery();
 
     return $qb->getResult();

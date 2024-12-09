@@ -53,14 +53,14 @@
                         </tr>
                         <tr>
                             <th>Image</th>
-                            <td>
-                                {% if cour.image %}
-                                    <p>{{ asset('uploads/images/' ~ cour.image) }}</p> <!-- Debugging -->
-                                    <img src="{{ asset('uploads/images/' ~ cour.image) }}" alt="Image du cours" class="img-fluid" />
-                                {% else %}
-                                    <p>Aucune image disponible</p>
-                                {% endif %}
-                            </td>
+                            <div class="card">
+    {% if cour.image %}
+        <img src="{{ asset('uploads/images/' ~ cour.image) }}" alt="Image du cours {{ cour.titreCours }}" class="img-fluid">
+    {% else %}
+        <p class="text-muted">Pas d'image disponible.</p>
+    {% endif %}
+</div>
+
                         </tr>
                     </tbody>
                 </table>

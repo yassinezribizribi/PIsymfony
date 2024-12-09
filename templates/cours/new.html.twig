@@ -4,19 +4,21 @@
 
 {% block body %}
 <br><br><br><br><br><br>
-<br><br><br><br><br><br>
 
 <div class="container mt-5 mb-5">
     <h1 class="text-center text-primary mb-4">Ajouter un Nouveau Cours</h1>
 
     <div class="card shadow-sm p-4 border-0 rounded-lg">
-        {{ form_start(form) }}
-        <div class="row gy-3">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        <div class="row gy-4">
             <!-- Titre du cours -->
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="titreCours" class="form-label fw-bold">Titre du cours :</label>
                     {{ form_widget(form.titreCours, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.titreCours) }}
+                    </div>
                 </div>
             </div>
             
@@ -25,6 +27,9 @@
                 <div class="form-group">
                     <label for="descriptionCours" class="form-label fw-bold">Description du cours :</label>
                     {{ form_widget(form.descriptionCours, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.descriptionCours) }}
+                    </div>
                 </div>
             </div>
 
@@ -33,6 +38,9 @@
                 <div class="form-group">
                     <label for="dateDebut" class="form-label fw-bold">Date de début :</label>
                     {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control shadow-sm js-datepicker', 'placeholder': 'Choisir une date'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.dateDebut) }}
+                    </div>
                 </div>
             </div>
 
@@ -41,6 +49,9 @@
                 <div class="form-group">
                     <label for="dateFin" class="form-label fw-bold">Date de fin :</label>
                     {{ form_widget(form.dateFin, {'attr': {'class': 'form-control shadow-sm js-datepicker', 'placeholder': 'Choisir une date'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.dateFin) }}
+                    </div>
                 </div>
             </div>
 
@@ -49,6 +60,9 @@
                 <div class="form-group">
                     <label for="image" class="form-label fw-bold">Image du cours :</label>
                     {{ form_widget(form.image, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.image) }}
+                    </div>
                 </div>
             </div>
 
@@ -57,6 +71,9 @@
                 <div class="form-group">
                     <label for="typeContenu" class="form-label fw-bold">Type de contenu :</label>
                     {{ form_widget(form.typeContenu, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.typeContenu) }}
+                    </div>
                 </div>
             </div>
 
@@ -65,6 +82,9 @@
                 <div class="form-group">
                     <label for="contenu" class="form-label fw-bold">Contenu du cours :</label>
                     {{ form_widget(form.contenu, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.contenu) }}
+                    </div>
                 </div>
             </div>
 
@@ -73,10 +93,14 @@
                 <div class="form-group">
                     <label for="prix" class="form-label fw-bold">Prix du cours :</label>
                     {{ form_widget(form.prix, {'attr': {'class': 'form-control shadow-sm', 'placeholder': 'Entrez le prix en euros'}}) }}
+                    <div class="text-danger small">
+                        {{ form_errors(form.prix) }}
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- Bouton d'ajout -->
         <div class="text-center mt-4">
             <button class="btn btn-success btn-lg shadow-sm px-4">Ajouter le cours</button>
         </div>

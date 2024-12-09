@@ -9,45 +9,75 @@
 <br>
 <br>
 <br>
-    <div class="container mt-5">
-        <h1>Modifier le cours : {{ cours.titreCours }}</h1>
+<div class="container mt-5">
+    <h1 class="text-center text-primary mb-4">Modifier le cours : {{ cours.titreCours }}</h1>
 
+    <div class="card shadow-sm p-4 border-0 rounded-lg">
         {{ form_start(form) }}
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.titreCours) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.descriptionCours) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.dateDebut) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.dateFin) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.image) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.typeContenu) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.contenu) }}
-                </div>
-                <!-- Ajout du champ pour le prix -->
-                <div class="col-md-6">
-                    {{ form_row(form.prix) }}
-                </div>
+        <div class="row gy-3">
+            <!-- Titre du cours -->
+            <div class="col-md-6">
+                {{ form_row(form.titreCours, {'label': 'Titre du cours', 'attr': {'class': 'form-control shadow-sm'}}) }}
+            </div>
+            
+            <!-- Description -->
+            <div class="col-md-6">
+                {{ form_row(form.descriptionCours, {'label': 'Description', 'attr': {'class': 'form-control shadow-sm'}}) }}
             </div>
 
-            <div class="text-center mt-3">
-                <button class="btn btn-primary">Enregistrer les modifications</button>
+            <!-- Date de début -->
+            <div class="col-md-6">
+                {{ form_row(form.dateDebut, {'label': 'Date de début', 'attr': {'class': 'form-control shadow-sm js-datepicker'}}) }}
             </div>
+
+            <!-- Date de fin -->
+            <div class="col-md-6">
+                {{ form_row(form.dateFin, {'label': 'Date de fin', 'attr': {'class': 'form-control shadow-sm js-datepicker'}}) }}
+            </div>
+
+            <!-- Image -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Image actuelle :</label>
+                {% if cours.image %}
+                    <div class="mb-3">
+                        <img src="{{ asset('uploads/images/' ~ cours.image) }}" alt="Image du cours" class="img-fluid rounded shadow-sm" style="max-width: 100px;">
+                    </div>
+                {% else %}
+                    <p>Aucune image ajoutée.</p>
+                {% endif %}
+                {{ form_row(form.image, {'label': 'Changer l\'image', 'attr': {'class': 'form-control shadow-sm'}}) }}
+            </div>
+
+            <!-- Type de contenu -->
+            <div class="col-md-6">
+                {{ form_row(form.typeContenu, {'label': 'Type de contenu', 'attr': {'class': 'form-control shadow-sm'}}) }}
+            </div>
+
+            <!-- Contenu -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Contenu actuel :</label>
+                {% if cours.contenu %}
+                    <p><a href="{{ asset('uploads/' ~ cours.contenu) }}" target="_blank" class="text-primary">Voir le contenu actuel</a></p>
+                {% else %}
+                    <p>Aucun contenu ajouté.</p>
+                {% endif %}
+                {{ form_row(form.contenu, {'label': 'Changer le contenu', 'attr': {'class': 'form-control shadow-sm'}}) }}
+            </div>
+
+            <!-- Prix -->
+            <div class="col-md-6">
+                {{ form_row(form.prix, {'label': 'Prix (en euros)', 'attr': {'class': 'form-control shadow-sm'}}) }}
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button class="btn btn-success btn-lg shadow-sm px-4">Enregistrer les modifications</button>
+        </div>
         {{ form_end(form) }}
 
-        <div class="text-center mt-3">
-            <a href="{{ path('app_cours_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_cours_index') }}" class="btn btn-secondary shadow-sm px-4">Retour à la liste</a>
         </div>
     </div>
+</div>
 {% endblock %}

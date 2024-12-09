@@ -17,172 +17,111 @@ use Stripe\Checkout\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-
-
 #[Route('/admin/cours')]
 final class CoursController extends AbstractController
 {
-    private const UPLOADS_DIRECTORY = __DIR__ . '/../../public/uploads/cours';
-
     #[Route(name: 'app_cours_index', methods: ['GET'])]
     public function index(CoursRepository $coursRepository): Response
     {
-        $cours = $coursRepository->findAll();
         return $this->render('cours/index.html.twig', [
-            'cours' => $cours,
+            'cours' => $coursRepository->findAll(),
         ]);
     }
 
-    // Dans CoursController.php
-#[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
-public function new(Request $request, EntityManagerInterface $entityManager): Response
-{
-    $cour = new Cours();
-    $form = $this->createForm(CoursType::class, $cour);
-    $form->handleRequest($request);
-    
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        /** @var UploadedFile $file */
-        $file = $form->get('contenu')->getData();
-        /** @var UploadedFile $imageFile */
-        $imageFile = $form->get('image')->getData();
-        $typeContenu = $form->get('typeContenu')->getData();
-
-        // Gérer le fichier image
-        if ($imageFile) {
-            $newFilename = uniqid() . '.' . $imageFile->guessExtension();
-            try {
-                $imageFile->move(self::UPLOADS_DIRECTORY . '/images', $newFilename);
-                $cour->setImage($newFilename);
-            } catch (FileException $e) {
-                throw new \Exception("Erreur lors de l'upload de l'image : " . $e->getMessage());
-            }
-        }
-
-        // Gérer le contenu (PDF ou vidéo)
-        if ($file) {
-            $newFilename = uniqid() . '.' . $file->guessExtension();
-            try {
-                $file->move(self::UPLOADS_DIRECTORY, $newFilename);
-                $cour->setContenu($newFilename);
-            } catch (FileException $e) {
-                throw new \Exception("Erreur lors de l'upload du fichier : " . $e->getMessage());
-            }
-        }
-
-        $cour->setTypeContenu($typeContenu);
-
-        $entityManager->persist($cour);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_cours_index');
-    }
-
-    return $this->render('cours/new.html.twig', [
-        'cour' => $cour,
-        'form' => $form->createView(),
-    ]);
-}
-
-
-    #[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
-    public function show(Cours $cour): Response
+    #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('cours/show.html.twig', [
+        $cour = new Cours();
+        $form = $this->createForm(CoursType::class, $cour);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $form->get('contenu')->getData();
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+            $typeContenu = $form->get('typeContenu')->getData();
+
+            // Validation et upload de l'image
+            if ($imageFile) {
+                $imageFilename = uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move($this->getParameter('images_directory'), $imageFilename);
+                    $cour->setImage($imageFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('error', "Erreur lors de l'upload de l'image : " . $e->getMessage());
+                }
+            }
+
+            // Validation et upload du contenu
+            if ($file) {
+                $fileExtension = $file->guessExtension();
+                if (($typeContenu === 'PDF' && $fileExtension !== 'pdf') ||
+                    ($typeContenu === 'Vidéo' && !in_array($fileExtension, ['mp4', 'avi', 'mkv']))) {
+                    $this->addFlash('error', "Le fichier téléchargé ne correspond pas au type de contenu sélectionné.");
+                    return $this->redirectToRoute('app_cours_new');
+                }
+
+                $fileFilename = uniqid() . '.' . $fileExtension;
+                try {
+                    $file->move($this->getParameter('uploads_directory'), $fileFilename);
+                    $cour->setContenu($fileFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('error', "Erreur lors de l'upload du fichier : " . $e->getMessage());
+                }
+            }
+
+            $entityManager->persist($cour);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_cours_index');
+        }
+
+        return $this->render('cours/new.html.twig', [
             'cour' => $cour,
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_cours_edit', methods: ['GET', 'POST'])]
-public function edit(Request $request, Cours $cour, EntityManagerInterface $entityManager): Response
-{
-    $form = $this->createForm(CoursType::class, $cour);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        /** @var UploadedFile $file */
-        $file = $form->get('contenu')->getData();
-        /** @var UploadedFile $imageFile */
-        $imageFile = $form->get('image')->getData();
-        $typeContenu = $form->get('typeContenu')->getData();
-
-        // Gérer le fichier image
-        if ($imageFile) {
-            $newFilename = uniqid() . '.' . $imageFile->guessExtension();
-            try {
-                $imageFile->move(self::UPLOADS_DIRECTORY . '/images', $newFilename);
-                $cour->setImage($newFilename);
-            } catch (FileException $e) {
-                throw new \Exception("Erreur lors de l'upload de l'image : " . $e->getMessage());
-            }
-        }
-
-        // Gérer le contenu (PDF ou vidéo)
-        if ($file) {
-            $newFilename = uniqid() . '.' . $file->guessExtension();
-            try {
-                $file->move(self::UPLOADS_DIRECTORY, $newFilename);
-                $cour->setContenu($newFilename);
-            } catch (FileException $e) {
-                throw new \Exception("Erreur lors de l'upload du fichier : " . $e->getMessage());
-            }
-        }
-
-        $cour->setTypeContenu($typeContenu);
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_cours_index');
-    }
-
-    return $this->render('cours/edit.html.twig', [
-        'cours' => $cour,
-        'form' => $form->createView(),
-    ]);
-}
-
-
-    #[Route('/{id}', name: 'app_cours_delete', methods: ['POST'])]
-    public function delete(Request $request, Cours $cour, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Cours $cour, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $cour->getId(), $request->request->get('_token'))) {
-            $filePath = self::UPLOADS_DIRECTORY . '/' . $cour->getContenu();
-            if (file_exists($filePath)) {
-                unlink($filePath);
+        $form = $this->createForm(CoursType::class, $cour);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $form->get('contenu')->getData();
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image')->getData();
+
+            if ($imageFile) {
+                if ($cour->getImage() && file_exists($this->getParameter('images_directory') . '/' . $cour->getImage())) {
+                    unlink($this->getParameter('images_directory') . '/' . $cour->getImage());
+                }
+
+                $imageFilename = uniqid() . '.' . $imageFile->guessExtension();
+                $imageFile->move($this->getParameter('images_directory'), $imageFilename);
+                $cour->setImage($imageFilename);
             }
 
-            $entityManager->remove($cour);
+            if ($file) {
+                if ($cour->getContenu() && file_exists($this->getParameter('uploads_directory') . '/' . $cour->getContenu())) {
+                    unlink($this->getParameter('uploads_directory') . '/' . $cour->getContenu());
+                }
+
+                $fileFilename = uniqid() . '.' . $file->guessExtension();
+                $file->move($this->getParameter('uploads_directory'), $fileFilename);
+                $cour->setContenu($fileFilename);
+            }
+
             $entityManager->flush();
+            return $this->redirectToRoute('app_cours_index');
         }
 
-        return $this->redirectToRoute('app_cours_index');
-    }
-
-    #[Route('/front/cours/{id}/paiement', name: 'front_cours_paiement', methods: ['POST'])]
-    public function createPaiementSession(Cours $cours): JsonResponse
-    {
-        Stripe::setApiKey($this->getParameter('stripe_secret_key')); // Clé secrète Stripe
-
-        $session = Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => $cours->getTitreCours(),
-                        'description' => $cours->getDescriptionCours(),
-                    ],
-                    'unit_amount' => $cours->getPrix() * 100, // Prix en centimes
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => $this->generateUrl('front_cours_index', [], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('front_cours_paiement', ['id' => $cours->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+        return $this->render('cours/edit.html.twig', [
+            'cours' => $cour,
+            'form' => $form->createView(),
         ]);
-
-        return new JsonResponse(['id' => $session->id]);
     }
-    
 }
