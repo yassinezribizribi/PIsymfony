@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'utilisateur{% endblock %}
+
+{% block body %}
+<section class="page-title-section" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); background-size: cover; background-position: center; position: relative;">
+    <!-- Ajouter un overlay léger pour améliorer la lisibilité du texte -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+
+    <div class="container text-center" style="position: relative; z-index: 1;">
+        <h1 class="text-white py-5">Modifier l'utilisateur</h1>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">Formulaire de modification</h4>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="form-group mb-3">
+                            {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form_row(form.prenomUser, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="form-group mb-3">
+                            {{ form_row(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-success btn-lg" type="submit">Sauvegarder les modifications</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ path('user_list') }}" class="btn btn-secondary btn-lg">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

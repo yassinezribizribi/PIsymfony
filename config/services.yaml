@@ -33,4 +33,15 @@ services:
      arguments:
             $stripePublicKey: '%stripe_public_key%'
             $stripeSecretKey: '%stripe_secret_key%'
+            
+        # Custom service definitions
+    App\Security\FormLoginAuthenticator:
+        arguments:
+            $router: '@router'
+            $userProvider: '@App\Repository\UtilisateurRepository'
+            $passwordHasher: '@security.user_password_hasher'  # Le bon service pour le hasher
+                # Example of a custom service with specific configurations
 
+    App\Controller\GoogleController:
+        arguments:
+            $session: '@session.factory'

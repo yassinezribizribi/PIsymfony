@@ -7,43 +7,58 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    
+
     private ?string $prenomUser = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"il faut entrer votre email")]
+    #[Assert\Email(message:"exemple : ******@****.***")]
+    
+
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $pwd = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE , nullable: true)]
     private ?\DateTimeInterface $dateInscri = null;
 
-    #[ORM\Column(length: 50)]
-    #[Assert\Choice(choices: ['etudiant', 'enseignant', 'autre'], message: 'Choisissez un rôle valide.')]
-    private string $role;
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+    
+    #[ORM\Column]
+    private bool $isVerified = false;
+
+    private $requestStack;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isActif = true; // 
 
    
-    /**
-     * @var Collection<int, Message>
-     */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'expediteur')]
-    private Collection $messages;
-
     /**
      * @var Collection<int, Cours>
      */
@@ -68,21 +83,13 @@ class Utilisateur
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'utilisateur')]
     private Collection $participations;
 
-    /**
-     * @var Collection<int, Annonce>
-     */
-    #[ORM\OneToMany(targetEntity: Annonce::class, mappedBy: 'utilisateur')]
-    private Collection $annonces;
 
     public function __construct()
     {
-        $this->messages = new ArrayCollection();
         $this->cours = new ArrayCollection();
         $this->evaluations = new ArrayCollection();
         $this->evenements = new ArrayCollection();
         $this->participations = new ArrayCollection();
-        $this->annonces = new ArrayCollection();
-        
     }
 
     
@@ -90,6 +97,7 @@ class Utilisateur
     {
         return $this->id;
     }
+    
 
     public function getNom(): ?string
     {
@@ -108,10 +116,9 @@ class Utilisateur
         return $this->prenomUser;
     }
 
-    public function setPrenomUser(string $prenomUser): static
+    public function setPrenomUser(string $prenomUser): self
     {
         $this->prenomUser = $prenomUser;
-
         return $this;
     }
 
@@ -126,17 +133,71 @@ class Utilisateur
 
         return $this;
     }
+    public function getIsActif(): bool
+    {
+        return $this->isActif;
+    }
 
-    public function getPwd(): ?string
+    public function setIsActif(bool $isActif): self
+    {
+        $this->isActif = $isActif;
+
+        return $this;
+    }
+   
+
+    
+    /**
+     * The public representation of the user (e.g. a username, an email address, etc.)
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
         return $this->pwd;
     }
 
-    public function setPwd(string $pwd): static
+    public function setPassword(string $password): self
     {
-        $this->pwd = $pwd;
+        $this->pwd = $password;
 
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getDateInscri(): ?\DateTimeInterface
@@ -150,47 +211,7 @@ class Utilisateur
 
         return $this;
     }
-    public function getRole(): string
-    {
-        return $this->role;
-    }
     
-    public function setRole(string $role): self
-    {
-        $this->role = $role;
-        return $this;
-    }
-    
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): static
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setExpediteur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): static
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getExpediteur() === $this) {
-                $message->setExpediteur(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Cours>
      */
@@ -311,32 +332,18 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection<int, Annonce>
-     */
-    public function getAnnonces(): Collection
+   
+
+
+
+    public function isVerified(): bool
     {
-        return $this->annonces;
+        return $this->isVerified;
     }
 
-    public function addAnnonce(Annonce $annonce): static
+    public function setVerified(bool $isVerified): static
     {
-        if (!$this->annonces->contains($annonce)) {
-            $this->annonces->add($annonce);
-            $annonce->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnnonce(Annonce $annonce): static
-    {
-        if ($this->annonces->removeElement($annonce)) {
-            // set the owning side to null (unless already changed)
-            if ($annonce->getUtilisateur() === $this) {
-                $annonce->setUtilisateur(null);
-            }
-        }
+        $this->isVerified = $isVerified;
 
         return $this;
     }

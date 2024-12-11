@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <!-- Autres balises head -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <title>{% block title %}My Website{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!-- Plugins Stylesheets -->
         <link rel="stylesheet" href="{{ asset('plugins/bootstrap/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/slick/slick.css') }}">
@@ -14,8 +12,13 @@
         <link rel="stylesheet" href="{{ asset('plugins/animate/animate.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/aos/aos.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/venobox/venobox.css') }}">
+
         <!-- Main Stylesheet -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
         {% block stylesheets %}{% endblock %}
     </head>
@@ -29,21 +32,24 @@
                         <div class="col-lg-4 text-center text-lg-left">
                             <a class="text-color mr-3" href="callto:+21671111222"><strong>CALL</strong> +216 71 111 222</a>
                             <ul class="list-inline d-inline">
-                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-facebook"></i></a></li>
-                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-twitter-alt"></i></a></li>
-                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-linkedin"></i></a></li>
-                                <li class="list-inline-item"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-instagram"></i></a></li>
+                                <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-facebook"></i></a></li>
+                                <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-twitter-alt"></i></a></li>
+                                <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-linkedin"></i></a></li>
+                                <li class="list-inline-item mx-0"><a class="d-inline-block p-2 text-color" href="#"><i class="ti-instagram"></i></a></li>
                             </ul>
                         </div>
                         <div class="col-lg-8 text-center text-lg-right">
                             <ul class="list-inline">
                                 <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0" href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+                                <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="{{ path('page_notice') }}">Notice</a></li>
+                                <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="{{ path('page_research') }}">Research</a></li>
+                                <li class="list-inline-item"><a class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block" href="{{ path('page_scholarship') }}">Scholarship</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Navigation -->
+            <!-- Navbar -->
             <div class="navigation w-100">
                 <div class="container">
                     <nav class="navbar navbar-expand-lg navbar-light p-0">
@@ -57,54 +63,44 @@
                                 <li class="nav-item"><a href="{{ path('page_about') }}" class="nav-link">About</a></li>
                                 <li class="nav-item"><a href="{{ path('front_cours_index') }}" class="nav-link">Courses</a></li>
                                 <li class="nav-item"><a href="{{ path('front_chapitre_index') }}" class="nav-link">Chapters</a></li>
-                                <li class="nav-item"><a href="{{ path('app_message_index') }}" class="nav-link">Messages</a></li>
                                 <li class="nav-item"><a href="{{ path('app_evenement_index') }}" class="nav-link">Events</a></li>
                                 <li class="nav-item"><a href="{{ path('page_contact') }}" class="nav-link">Contact</a></li>
-                                <li class="nav-item"><a href="{{ path('app_utilisateur_new') }}" class="nav-link">Register</a></li>
+                                <li class="nav-item"><a href="{{ path('app_register_choice') }}" class="nav-link">Register</a></li>
+                                <li class="nav-item"><a href="{{ path('app_profile') }}" class="nav-link">My Account</a></li>
+                                <li class="nav-item"><a href="{{ path('admin_dashboard') }}" class="nav-link">Dashboard</a></li>
                             </ul>
                         </div>
                     </nav>
                 </div>
             </div>
         </header>
+
         <!-- Main Content -->
         {% block body %}{% endblock %}
 
-   <footer class="py-4" style="background-color: #1e1e4b; color: #fff;">
-    <div class="container text-center">
-        <!-- Logo centré -->
-        <div class="mb-3">
-            <img src="{{ asset('uploads/images/edu.png') }}" alt="Educenter" class="img-fluid" style="max-height: 50px; border: none; box-shadow: none; background-color: #1e1e4b;">
-        </div>
-
-        <!-- Liens sous forme de ligne -->
-        <div class="mb-3">
-            <nav>
-                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Accueil</a>
-                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">À propos</a>
-                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Cours</a>
-                <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Contact</a>
-            </nav>
-        </div>
-
-        <!-- Section Contactez-nous -->
-        <div>
-            <p class="mb-1" style="font-size: 1rem; color: #d9d9d9;">Contactez-nous :</p>
-            <p class="font-weight-bold" style="color: #f8c146; font-size: 1.2rem;">+216 99 123 456</p>
-        </div>
-
-        <!-- Copyright -->
-        <div class="mt-3">
-            <small style="color: #d9d9d9;">&copy; {{ "now"|date("Y") }} Educenter. Tous droits réservés.</small>
-        </div>
-    </div>
-</footer>
-
-
-
-
-
-
+        <!-- Footer -->
+        <footer class="py-4" style="background-color: #1e1e4b; color: #fff;">
+            <div class="container text-center">
+                <div class="mb-3">
+                    <img src="{{ asset('uploads/images/edu.png') }}" alt="Educenter" class="img-fluid" style="max-height: 50px; border: none;">
+                </div>
+                <div class="mb-3">
+                    <nav>
+                        <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Home</a>
+                        <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">About</a>
+                        <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Courses</a>
+                        <a href="#" class="text-light text-decoration-none mx-3" style="color: #f8c146; font-weight: bold;">Contact</a>
+                    </nav>
+                </div>
+                <div>
+                    <p class="mb-1" style="font-size: 1rem; color: #d9d9d9;">Contact us:</p>
+                    <p class="font-weight-bold" style="color: #f8c146; font-size: 1.2rem;">+216 99 123 456</p>
+                </div>
+                <div class="mt-3">
+                    <small style="color: #d9d9d9;">&copy; {{ "now"|date("Y") }} Educenter. All rights reserved.</small>
+                </div>
+            </div>
+        </footer>
 
         <!-- Scripts -->
         <script src="{{ asset('plugins/jQuery/jquery.min.js') }}"></script>

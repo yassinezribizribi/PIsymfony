@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome Back!{% endblock %}
+
+{% block stylesheets %}
+<style>
+    /* Global styles */
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        font-family: 'Arial', sans-serif;
+        color: #fff;
+    }
+
+    /* Centering the login form */
+    .main-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-container {
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        color: #333;
+    }
+
+    .login-container h1 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: #2575fc;
+    }
+
+    .login-container label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .login-container input {
+        width: 100%;
+        padding: 0.8rem;
+        margin-bottom: 1.2rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .login-container input:focus {
+        border-color: #2575fc;
+        outline: none;
+        box-shadow: 0 0 4px rgba(37, 117, 252, 0.5);
+    }
+
+    .login-container button {
+        background-color: #2575fc;
+        color: #fff;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+
+    .login-container button:hover {
+        background-color: #1a5cbc;
+    }
+
+    .login-container a {
+        color: #2575fc;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    .login-container a:hover {
+        text-decoration: underline;
+    }
+
+    .alert {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+
+    .logo {
+        margin-bottom: 1.5rem;
+    }
+
+    .logo img {
+        max-width: 100px;
+    }
+
+    /* Footer styling */
+    
+
+    
+</style>
+{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="main-content">
+    <div class="login-container">
+        <div class="logo">
+            <img src="/images/logo.png" alt="Logo">
+        </div>
+
+        <h1>Welcome Back!</h1>
+
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, 
+                    <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <label for="username">Email</label>
+            <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+
+            <label for="password">Password</label>
+            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+        </form>
+
+        <p class="mt-3">
+            <a href="#">Forgot your password?</a>
+        </p>
+    </div>
+</div>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br>
+
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'utilisateur{% endblock %}
+
+{% block body %}
+<section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); background-size: cover; background-position: center; position: relative;">
+    <!-- Overlay léger pour améliorer la lisibilité -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+    <div class="container text-center" style="position: relative; z-index: 1;">
+        <h1 class="text-white py-5">Détails de l'utilisateur</h1>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <!-- Card pour l'affichage des détails utilisateur -->
+    <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h4 class="mb-0">Informations de l'utilisateur</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ user.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ user.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ user.prenomUser }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Rôle</th>
+                        <td>
+                            {% for role in user.roles %}
+                                <span class="badge badge-primary">{{ role }}</span>{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <!-- Ajouter d'autres détails utilisateur si nécessaire -->
+                </tbody>
+            </table>
+
+            <!-- Actions utilisateur -->
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{{ path('user_edit', {id: user.id}) }}" class="btn btn-warning btn-lg mx-2" title="Modifier">
+                    <i class="fas fa-pencil-alt"></i> Modifier
+                </a>
+                <a href="{{ path('user_delete', {id: user.id}) }}" class="btn btn-danger btn-lg mx-2" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br><br><br>
+{% endblock %}

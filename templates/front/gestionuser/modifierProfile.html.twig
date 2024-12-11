@@ -1,0 +1,83 @@
+{% extends 'front/gestionuser/profile.html.twig' %}
+{%block body%}
+<div class="main-content">
+  <!-- Contact Us Start -->
+  <section class="iq-contactus gray-bg">
+     <div class="container">
+        <div class="row">
+           <div class="col-lg-6">
+              <img src="{{asset('front/images/project/02.png')}}" alt="login"></div>
+           <div class="col-lg-6">
+              <div class="title-box  text-left">
+                 <span class="text-warning">Bienvenue chez SandBoX</span>
+                 <h2 class="title">Modifier votre informations</h2>
+              </div>
+               {{ form_start(form,{'attr':{'class':'contact-us','novalidate':'novalidate'}}) }}
+                 <div class="row">
+                    <div class="col-md-6">
+                       <label>Votre nom<br>
+                       <span class="form-control-wrap your-name">
+                        {{form_widget(form.nom,{'attr':{'class':'form-control text'}})}}</span>
+                       </label>
+                       {% if form_errors(form.nom) is not empty %}
+                       <div class="alert alert-danger">
+                      {{form_errors(form.nom,{'attr':{'class':'form-control '}})}}   
+                       </div> 
+                       {% endif %} 
+                    </div>
+                    <div class="col-md-6">
+                       <label>Votre Prénom<br>
+                       <span class="form-control-wrap your-name">
+                        {{form_widget(form.prenom,{'attr':{'class':'form-control text'}})}}</span>
+                       </label>
+                       {% if form_errors(form.prenom) is not empty %}
+                       <div class="alert alert-danger">
+                      {{form_errors(form.prenom,{'attr':{'class':'form-control '}})}}   
+                       </div> 
+                       {% endif %} 
+                    </div>
+                    <div class="col-md-6">
+                       <label>Votre E-mail<br>
+                       <span class="form-control-wrap your-email">
+                        {{form_widget(form.email,{'attr':{'class':'form-control text'}})}}</span>
+                       </label>
+                       {% if form_errors(form.email) is not empty %}
+                       <div class="alert alert-danger">
+                      {{form_errors(form.email,{'attr':{'class':'form-control '}})}}   
+                       </div> 
+                       {% endif %} 
+                    </div>
+                    <div class="col-md-6">
+                     <label>Date de naissance<br>
+                     <span class="form-control-wrap your-name">
+                        {{form_widget(form.dateNaiss,{'attr':{'class':'form-control text'}})}}</span>
+                     </label>
+                  </div>
+                  <div class="col-xl-12">
+                     <label>Numéro de téléphone<br>
+                     <span class="form-control-wrap your-name">
+                        {{form_widget(form.tel,{'attr':{'class':'form-control text'}})}}</span>
+                     </label>
+                  </div>
+                  <div class="col-xl-12">
+                     <label>Addresse<br>
+                     <span class="form-control-wrap your-name">
+                        {{form_widget(form.adresse,{'attr':{'class':'form-control'}})}}</span>
+                     </label>
+                  </div>
+                  <div class="col-xl-12">
+                     <label>Description<br>
+                     <span class="form-control-wrap your-name">
+                        {{form_widget(form.description,{'attr':{'class':'form-control text'}})}}</textarea></span>
+                     </label>
+                  </div>
+                    <div class="col-xl-12" style="position: relative;left:73%;">
+                     <button type="submit" class="button btn-yellow" >{{button_label|default('Modifier')}}</button>
+                    </div>
+                 </div>
+                 {{ form_end(form) }}
+           </div>
+        </div>
+     </div>
+  </section>
+{%endblock%}

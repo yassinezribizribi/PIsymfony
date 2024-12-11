@@ -1,69 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails de l'utilisateur{% endblock %}
+{% block title %}Utilisateur{% endblock %}
 
 {% block body %}
-    <!-- Conteneur principal -->
-    <div class="container my-5">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <h1>Utilisateur</h1>
 
-        <!-- Section titre -->
-        <div class="bg-light p-4 rounded shadow-sm mb-4 text-center">
-            <h1 class="mb-0">
-                <i class="fas fa-user"></i> Détails de l'Utilisateur
-            </h1>
-        </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ utilisateur.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ utilisateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>PrenomUser</th>
+                <td>{{ utilisateur.prenomUser }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ utilisateur.email }}</td>
+            </tr>
+            <tr>
+                <th>Pwd</th>
+                <td>{{ utilisateur.pwd }}</td>
+            </tr>
+            <tr>
+                <th>DateInscri</th>
+                <td>{{ utilisateur.dateInscri ? utilisateur.dateInscri|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModePaiement</th>
+                <td>{{ utilisateur.modePaiement }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-        <!-- Section informations utilisateur -->
-        <div class="bg-white p-4 rounded shadow-sm">
-            <table class="table table-bordered">
-                <tbody>
-                    <tr>
-                        <th class="bg-secondary text-white"># ID</th>
-                        <td>{{ utilisateur.id }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-secondary text-white">Nom</th>
-                        <td>{{ utilisateur.nom }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-secondary text-white">Prénom</th>
-                        <td>{{ utilisateur.prenomUser }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-secondary text-white">Email</th>
-                        <td>{{ utilisateur.email }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-secondary text-white">Mot de passe</th>
-                        <td>{{ utilisateur.pwd }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-secondary text-white">Date d'inscription</th>
-                        <td>{{ utilisateur.dateInscri ? utilisateur.dateInscri|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-secondary text-white">Rôle</th>
-                        <td>{{ utilisateur.role }}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <a href="{{ path('app_utilisateur_index') }}">back to list</a>
 
-            <!-- Boutons d'action -->
-            <div class="text-center mt-4">
-                <a href="{{ path('app_utilisateur_index') }}" class="btn btn-secondary me-2">
-                    <i class="fas fa-arrow-left"></i> Retour à la liste
-                </a>
-                <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-warning me-2">
-                    <i class="fas fa-edit"></i> Modifier
-                </a>
-                {{ include('utilisateur/_delete_form.html.twig', { 'class': 'd-inline-block' }) }}
-            </div>
-        </div>
-    </div>
+    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
+
+    {{ include('utilisateur/_delete_form.html.twig') }}
 {% endblock %}

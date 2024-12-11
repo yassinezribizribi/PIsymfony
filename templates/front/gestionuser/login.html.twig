@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{%block body%}
+<section class="page-title-section overlay" style="background-image: url('images/backgrounds/page-title.jpg'); background-size: cover; background-position: center;">
+
+<div class="main-content">
+  <!-- Contact Us Start -->
+  <section class="iq-contactus gray-bg">
+     <div class="container">
+        <div class="row">
+           <div class="col-lg-6">
+              <img src="{{asset('front/images/project/02.png')}}" alt="login"></div>
+           <div class="col-lg-6">
+              <div class="title-box  text-left">
+                 <span class="text-warning">Bienvenue chez SandBoX</span>
+                 <h2 class="title">Connexion</h2>
+              </div>
+              <form  class="contact-us" method="post">
+               {% if error %}
+               <div class="alert alert-danger"> Merci de verifier votre Email et mot de passe</div>
+           {% endif %}
+           {% if captcha != "" %}
+           <div class="alert alert-danger">{{captcha}}</div>
+       {% endif %}
+       
+       
+           <h1 class="h3 mb-3 font-weight-normal">Connecter s'il vous plait</h1>
+           <label for="inputEmail">Email</label>
+           <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control text" autocomplete="email" required autofocus>
+           <label for="inputPassword">Mot de passe</label>
+           <input type="password" name="password" id="inputPassword" class="form-control text" autocomplete="current-password" required>
+       
+           <input type="hidden" name="_csrf_token"
+                  value="{{ csrf_token('authenticate') }}"
+           >
+           <a style="color:#6f6f6f;" href="{{path('app_forget')}}">J'oublie mon mot de passe</a>
+           
+               <div class="checkbox mb-3">
+                   <label>
+                       <input type="checkbox" name="_remember_me"> Remember me
+                   </label>
+               </div>
+           
+           <div class="g-recaptcha" data-sitekey="6LfqXqYkAAAAAGl6ktvrtKJ3nImnv_WPyHMZCnAp"></div>
+           <br>
+           <div class="col-xl-24" style="position: relative;left:-50%;width:150%">
+           <button class="button btn-yellow" type="submit">
+               Se connecter
+           </button>     
+           
+           Or
+
+           <a href="{{ path('google_auth') }}" class="h4 mb-3 font-weight-normal" style="position: relative;left:10%">Log in with Google</a>
+         </div>
+         
+              </form>
+           </div>
+        </div>
+     </div>
+  </section>
+{%endblock%}

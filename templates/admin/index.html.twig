@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs{% endblock %}
+
+{% block body %}
+<section class="page-title-section" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); background-size: cover; background-position: center; position: relative;">
+    <!-- Ajouter un overlay pour assombrir l'image de fond -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
+
+    <div class="container text-center py-5" style="position: relative; z-index: 1;">
+        <h1 class="display-4 text-white">Liste des Utilisateurs</h1>
+    </div>
+</section>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-white">Utilisateurs enregistrés</h2>
+
+    <table class="table table-hover table-striped table-bordered shadow-sm text-white">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Date d'Inscription</th>
+                <th>Rôles</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td>{{ utilisateur.id }}</td>
+                    <td>{{ utilisateur.nom }}</td>
+                    <td>{{ utilisateur.prenomUser }}</td>
+                    <td>{{ utilisateur.email }}</td>
+                    <td>{{ utilisateur.dateInscri ? utilisateur.dateInscri|date('d/m/Y') : '' }}</td>
+                    <td>
+                        {% if utilisateur.roles %}
+                            <ul class="list-unstyled">
+                                {% for role in utilisateur.roles %}
+                                    <li>{{ role }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            Aucune
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}" class="btn btn-info btn-sm" title="Voir"><i class="fas fa-eye"></i></a>
+                        <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}" class="btn btn-warning btn-sm" title="Modifier"><i class="fas fa-edit"></i></a>
+                        <a href="{{ path('app_utilisateur_delete', {'id': utilisateur.id}) }}" class="btn btn-danger btn-sm" title="Supprimer" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-white">Aucun utilisateur trouvé</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+</div>
+<br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

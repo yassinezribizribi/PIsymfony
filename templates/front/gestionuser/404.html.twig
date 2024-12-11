@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{%block body%}
+<section class="error-404">
+    <div class="container">
+       <div class="row">
+          <div class="col-sm-12">
+             <div class="fourzero-image">
+                         <img src="{{asset('front/images/404.png')}}" class="img-fluid" alt="Responsive image">
+                      </div>   
+             <h1 class="iq-font-light">Oops! Votre compte était bloqué. Merci de nous contacter </h1>
+             <div class="d-block">
+                <a class="button btn-yellow" href="{{ path('app_landing') }}">Back to Home</a>
+             </div>                
+          </div>
+          </div>
+       </div>
+    </section>
+{%endblock%}

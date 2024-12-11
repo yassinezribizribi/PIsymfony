@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="page-title-section overlay" style="background-image: url('images/backgrounds/page-title.jpg'); background-size: cover; background-position: center;">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="main-content">
+    <!-- Contact Us Start -->
+    <section class="iq-contactus gray-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="title-box text-center">
+                        <span class="text-warning">Register as Student</span>
+                        <h2 class="title">Inscription</h2>
+                    </div>
+
+                    {{ form_start(registrationForm, {'attr': {'class': 'contact-us', 'novalidate': 'novalidate'}}) }}
+                    <div class="row">
+                        
+                        <!-- Nom -->
+                        <div class="col-md-6 mb-3">
+                            <label for="nom" class="form-label">Votre Nom</label>
+                            <div class="form-control-wrap">
+                                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Votre Nom'}}) }}
+                                {% if form_errors(registrationForm.nom) is not empty %}
+                                    <div class="alert alert-danger mt-2">
+                                        {{ form_errors(registrationForm.nom) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Prénom -->
+                        <div class="col-md-6 mb-3">
+                            <label for="prenomUser" class="form-label">Votre Prénom</label>
+                            <div class="form-control-wrap">
+                                {{ form_widget(registrationForm.prenomUser, {'attr': {'class': 'form-control', 'placeholder': 'Votre Prénom'}}) }}
+                                {% if form_errors(registrationForm.prenomUser) is not empty %}
+                                    <div class="alert alert-danger mt-2">
+                                        {{ form_errors(registrationForm.prenomUser) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- E-mail -->
+                        <div class="col-12 mb-3">
+                            <label for="email" class="form-label">Votre E-mail</label>
+                            <div class="form-control-wrap">
+                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Votre E-mail'}}) }}
+                                {% if form_errors(registrationForm.email) is not empty %}
+                                    <div class="alert alert-danger mt-2">
+                                        {{ form_errors(registrationForm.email) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Mot de Passe -->
+                        <div class="col-12 mb-3">
+                            <label for="plainPassword" class="form-label">Votre mot de passe</label>
+                            <div class="form-control-wrap">
+                                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Votre mot de passe'}}) }}
+                                {% if form_errors(registrationForm.plainPassword) is not empty %}
+                                    <div class="alert alert-danger mt-2">
+                                        {{ form_errors(registrationForm.plainPassword) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Conditions -->
+                        
+
+                        <!-- Submit Button -->
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-yellow btn-lg mt-4">{{ button_label|default('S inscrire') }}</button>
+                        </div>
+                        <div class="text-center mt-4">
+                            <p>Vous avez déjà un compte ? 
+                            <a href="{{ path('app_login') }}" class="btn btn-link">Se connecter</a>
+                            </p>
+                        </div>
+
+                    </div>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

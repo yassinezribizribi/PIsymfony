@@ -3,3 +3,28 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+app_verify_email:
+    path: /verify/email
+    controller: App\Controller\RegistrationController::verifyUserEmail
+
+google_auth:
+    path: /auth/google
+    controller: App\Controller\AuthController::googleLogin
+app_profile:
+    path: /utilisateur/profile
+    controller: App\Controller\UtilisateurController::profile
+user_show:
+    path: /user/{id}
+    controller: App\Controller\AdminController::showUser
+    requirements:
+        id: \d+ # ID doit être un entier
+user_list:
+    path: /admin/utilisateurs
+    controller: App\Controller\AdminController::index
+user_edit:
+  path: /user/{id}/edit
+  controller: App\Controller\AdminController::edit
+user_delete:
+  path: /user/{id}/delete
+  controller: App\Controller\AdminController::delete
+

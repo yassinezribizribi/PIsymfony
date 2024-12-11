@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<section class="page-title-section overlay" style="background-image: url('images/backgrounds/page-title.jpg'); background-size: cover; background-position: center; padding: 100px 0;">
+    <br><br><br><br><br><br><br><br><br>
+    <div class="container">
+        <h1 class="text-white text-center">Admin Dashboard</h1>
+        <p class="text-white text-center">Manage your platform with ease</p>
+    </div>
+</section>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 bg-dark text-white p-3">
+            <h4 class="text-center mb-4">Admin Panel</h4>
+            <ul class="nav flex-column">
+                
+                <li class="nav-item">
+                    <a href="{{ path('app_utilisateur_index') }}">Liste des utilisateurs</a>
+
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="app_home">Logout</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-10">
+            <div class="row my-4">
+                <!-- Card 1: Total Users -->
+                <div class="col-md-4 mb-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Users</h5>
+                            <p class="card-text">You have <strong>{{ totalUsers }}</strong> registered users.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Active Sessions -->
+                <div class="col-md-4 mb-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Active Sessions</h5>
+                            <p class="card-text">There are currently <strong>300</strong> active sessions.</p>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+
+            <div class="row">
+                <!-- Graph or Stats Section -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                            Activity Overview
+                        </div>
+                        <div class="card-body">
+                            
+                            <canvas id="myChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js Script for Graph -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                datasets: [{
+                    label: 'Active Users',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+    <br><br><br><br><br><br><br><br><br>
+
+
+{% endblock %}

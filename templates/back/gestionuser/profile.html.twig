@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="page-title-section" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); background-size: cover; background-position: center; position: relative;">
+
+<br><br><br><br><br><br>
+<!-- Utilisation de la classe container pour une meilleure gestion de l'espace -->
+<div class="container my-5">
+  <!-- Profil utilisateur -->
+  <div class="card mb-4 shadow-lg">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-8">
+          <h4 class="mb-3">
+            {{ utilisateur.nom }} {{ utilisateur.prenomUser }}
+            <span data-bs-toggle="tooltip" data-bs-placement="right" title="Verified">
+              <small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small>
+            </span>
+          </h4>
+          <!-- Placement du formulaire avec plus d'espace -->
+          <div class="d-flex justify-content-end">
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Détails utilisateur -->
+  <div class="row g-3">
+    <div class="col-lg-8">
+      <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Détails</h4>
+        </div>
+        <div class="card-body text-justify">
+          <div class="collapse show" id="profile-intro">
+            <p class="mt-3 text-1000">
+              <h5>Nom et Prénom :</h5><span>{{ utilisateur.nom }} {{ utilisateur.prenomUser }}</span>
+            </p>
+            <p class="mt-3 text-1000">
+              <h5>Adresse E-mail :</h5><span>{{ utilisateur.email }}</span>
+            </p>
+          </div>
+        </div>
+        <div class="card-footer bg-light p-0 border-top">
+          <button class="btn btn-link d-block w-100 btn-intro-collapse" type="button" data-bs-toggle="collapse" data-bs-target="#profile-intro" aria-expanded="true" aria-controls="profile-intro">
+            Show <span class="less">less<span class="fas fa-chevron-up ms-2 fs--2"></span></span><span class="full">full<span class="fas fa-chevron-down ms-2 fs--2"></span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between">
+          <h5 class="mb-0">Annonces</h5><a class="font-sans-serif" href="events.html.twig">All logs</a>
+        </div>
+        <div class="card-body fs--1 p-0">
+          <!-- Exemple d'une notification -->
+          <a class="border-bottom-0 notification rounded-0 border-x-0 border border-300" href="#!">
+            <div class="notification-avatar">
+              <div class="avatar avatar-xl me-3">
+                <div class="avatar-emoji rounded-circle"><span role="img" aria-label="Emoji">🎁</span></div>
+              </div>
+            </div>
+            <div class="notification-body">
+              <p class="mb-1"><strong>Jennifer Kent</strong> Congratulated <strong>Anthony Hopkins</strong></p>
+              <span class="notification-time">November 13, 5:00 AM</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar évènements -->
+    <div class="col-lg-4">
+      <div class="sticky-sidebar">
+        <div class="card mb-3 mb-lg-0 shadow-sm">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">Evènements</h5>
+          </div>
+          <div class="card-body fs--1">
+            <div class="d-flex btn-reveal-trigger">
+              <div class="calendar"><span class="calendar-month">Feb</span><span class="calendar-day">21</span></div>
+              <div class="flex-1 position-relative ps-3">
+                <h6 class="fs-0 mb-0"><a href="app/events/event-detail.html">Newmarket Nights</a></h6>
+                <p class="mb-1">Organized by <a href="#!" class="text-700">University of Oxford</a></p>
+                <p class="text-1000 mb-0">Time: 6:00AM</p>
+                <p class="text-1000 mb-0">Duration: 6:00AM - 5:00PM</p>
+                <p class="text-1000 mb-0">Place: Cambridge Boat Club, Cambridge</p>
+                <div class="border-dashed-bottom my-3"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer bg-light p-0 border-top">
+            <a class="btn btn-link d-block w-100" href="app/events/event-list.html">All Events<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bouton de déconnexion -->
+  <div class="d-flex justify-content-center mt-4">
+    <a href="{{ path('app_logout') }}" class="btn btn-danger">Déconnexion</a>
+  </div>
+</div>
+{% endblock %}

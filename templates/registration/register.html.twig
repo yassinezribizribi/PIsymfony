@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register as {{ role|capitalize }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Register as {{ role|capitalize }}</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(registrationForm) }}
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.prenomUser, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                        {{ form_widget(registrationForm.prenomUser, { 'attr': { 'class': 'form-control' } }) }}
+                        {{ form_errors(registrationForm.prenomUser) }}
+
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.nom, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                        {{ form_widget(registrationForm.nom, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez votre nom' } }) }}
+                        {{ form_errors(registrationForm.nom) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.email, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                        {{ form_widget(registrationForm.email, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez votre email' } }) }}
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form_label(registrationForm.plainPassword, null, { 'label_attr': { 'class': 'form-label' } }) }}
+                        {{ form_widget(registrationForm.plainPassword, { 'attr': { 'class': 'form-control', 'placeholder': 'Entrez votre mot de passe' } }) }}
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+
+                    
+
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p>Vous avez déjà un compte ? 
+                    <a href="{{ path('app_login') }}" class="btn btn-link">Se connecter</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

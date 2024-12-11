@@ -1,0 +1,21 @@
+{# templates/registration/choice.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Register Choice{% endblock %}
+
+{% block body %}
+<section class="page-title-section overlay" style="background-image: url('images/backgrounds/page-title.jpg'); background-size: cover; background-position: center;">
+    <div class="register-choice-container">
+        <div class="register-choice-content">
+            <h1 class="register-title">Welcome to Registration</h1>
+            <p class="register-description">Please select your role to proceed:</p>
+            <div class="register-buttons">
+                <a href="{{ path('app_register_student') }}" class="btn btn-primary">Register as Student</a>
+                <a href="{{ path('app_register_teacher') }}" class="btn btn-secondary">Register as Teacher</a>
+            </div>
+        </div>
+    </div>
+</section>
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+{% endblock %}
