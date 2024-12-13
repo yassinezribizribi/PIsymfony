@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Evenement;
+use App\Entity\Tache;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Evenement>
+ * @extends ServiceEntityRepository<Tache>
  */
-class EvenementRepository extends ServiceEntityRepository
+class TacheRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Evenement::class);
+        parent::__construct($registry, Tache::class);
     }
 
 //    /**
-//     * @return Evenement[] Returns an array of Evenement objects
+//     * @return Tache[] Returns an array of Tache objects
 //     */
 //    public function findByExampleField($value): array
 //    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
+//        return $this->createQueryBuilder('t')
+//            ->andWhere('t.exampleField = :val')
 //            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
+//            ->orderBy('t.id', 'ASC')
 //            ->setMaxResults(10)
 //            ->getQuery()
 //            ->getResult()
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Evenement
+//    public function findOneBySomeField($value): ?Tache
 //    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
+//        return $this->createQueryBuilder('t')
+//            ->andWhere('t.exampleField = :val')
 //            ->setParameter('val', $value)
 //            ->getQuery()
 //            ->getOneOrNullResult()

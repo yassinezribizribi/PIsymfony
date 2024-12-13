@@ -82,6 +82,17 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'utilisateur')]
     private Collection $participations;
+    /**
+ * @var Collection<int, Commentaire>
+ */
+#[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'utilisateur', cascade: ['persist', 'remove'])]
+private Collection $commentaires; 
+/**
+ * @var Collection<int, Tache>
+ */
+#[ORM\OneToMany(targetEntity: Tache::class, mappedBy: 'utilisateur', cascade: ['persist', 'remove'])]
+private Collection $taches;
+
 
 
     public function __construct()
@@ -90,6 +101,10 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
         $this->evaluations = new ArrayCollection();
         $this->evenements = new ArrayCollection();
         $this->participations = new ArrayCollection();
+        $this->commentaires = new ArrayCollection(); // Initialiser la collection
+        $this->taches = new ArrayCollection(); // Initialiser la collection
+
+
     }
 
     
@@ -347,5 +362,65 @@ class Utilisateur implements UserInterface , PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+ * @return Collection<int, Commentaire>
+ */
+public function getCommentaires(): Collection
+{
+    return $this->commentaires;
+}
+
+public function addCommentaire(Commentaire $commentaire): self
+{
+    if (!$this->commentaires->contains($commentaire)) {
+        $this->commentaires->add($commentaire);
+        $commentaire->setUtilisateur($this); // Définir l'utilisateur associé au commentaire
+    }
+
+    return $this;
+}
+
+public function removeCommentaire(Commentaire $commentaire): self
+{
+    if ($this->commentaires->removeElement($commentaire)) {
+        // Annuler la relation avec l'utilisateur si nécessaire
+        if ($commentaire->getUtilisateur() === $this) {
+            $commentaire->setUtilisateur(null);
+        }
+    }
+
+    return $this;
+}
+/**
+ * @return Collection<int, Tache>
+ */
+public function getTaches(): Collection
+{
+    return $this->taches;
+}
+
+public function addTache(Tache $tache): self
+{
+    if (!$this->taches->contains($tache)) {
+        $this->taches->add($tache);
+        $tache->setUtilisateur($this); // Définir l'utilisateur pour la tâche
+    }
+
+    return $this;
+}
+
+public function removeTache(Tache $tache): self
+{
+    if ($this->taches->removeElement($tache)) {
+        // Supprimer l'association côté `Tache` si nécessaire
+        if ($tache->getUtilisateur() === $this) {
+            $tache->setUtilisateur(null);
+        }
+    }
+
+    return $this;
+}
+
 
 }
