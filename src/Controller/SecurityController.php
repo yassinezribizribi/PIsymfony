@@ -1,34 +1,72 @@
 <?php
+// SecurityController.php
+
 namespace App\Controller;
+
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Cours;
+use App\Entity\Utilisateur;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        // Si l'utilisateur est déjà connecté, on le redirige vers son compte
-        if ($this->getUser()) {
-            if ($this->isGranted('ROLE_ADMIN')) {
-                return $this->redirectToRoute('admin_dashboard');
-            } elseif ($this->isGranted('ROLE_USER')) {
-                return $this->redirectToRoute('app_profile'); // Remplacez par la route de votre page utilisateur
-            }        }
+        $this->entityManager = $entityManager;
+    }
 
-        // Récupérer l'erreur de connexion (si présente)
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // Récupérer le dernier nom d'utilisateur entré par l'utilisateur
-        $lastUsername = $authenticationUtils->getLastUsername();
+    /**
+     * Redirige l'utilisateur vers le profil approprié selon son rôle.
+     */
+    public function redirectToProfile(): Response
+    {
+        if ($this->isGranted('ROLE_TEACHER')) {
+            return $this->redirectToRoute('teacher_profile');
+        } elseif ($this->isGranted('ROLE_STUDENT')) {
+            return $this->redirectToRoute('student_profile');
+        }
 
-        return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error
+        // Si aucun rôle spécifique, redirige vers une page d'erreur ou générique
+        return $this->redirectToRoute('app_home');
+    }
+
+    /**
+     * Affiche le profil de l'enseignant.
+     */
+    public function teacherProfile(): Response
+    {
+        // Utilisation de l'EntityManager pour récupérer les cours
+        $courses = $this->entityManager
+            ->getRepository(Cours::class)
+            ->findAll();
+        
+    
+            $students = $this->entityManager
+            ->getRepository(Utilisateur::class)
+            ->findByRole('ROLE_STUDENT');
+
+        // Passer les cours à la vue
+        return $this->render('back/gestionuser/profile1.html.twig', [
+            'courses' => $courses,
+            'students' => $students,
+
         ]);
     }
+
+    /**
+     * Affiche le profil de l'étudiant.
+     */
+    public function studentProfile(): Response
+    {
+        return $this->render('back/gestionuser/profile.html.twig'); // Vue pour étudiants
+    }
+
+
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

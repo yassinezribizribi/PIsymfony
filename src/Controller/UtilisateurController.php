@@ -127,46 +127,63 @@ final class UtilisateurController extends AbstractController{
 
     
 
-    
-   /**
-     * @Route("/profile", name="app_profile")
-     */
-    public function profile(Request $request): Response
-    {
-        $currentUser = $this->security->getUser();
+  /**
+ * @Route("/profile", name="app_profile")
+ */
+public function profile(Request $request): Response
+{
+    // Récupération de l'utilisateur courant
+    $currentUser = $this->getUser();
 
-        if (!$currentUser) {
-            throw $this->createAccessDeniedException('You must be logged in to access your profile.');
-        }
-
-        // Vérification du rôle admin
-        if (in_array('ROLE_ADMIN', $currentUser->getRoles())) {
-            return $this->redirectToRoute('admin_dashboard'); // Rediriger vers le dashboard admin si l'utilisateur a le rôle ROLE_ADMIN
-        }
-
-        // Sinon, afficher le profil utilisateur classique
-        $utilisateur = $this->entityManager->getRepository(Utilisateur::class)->find($currentUser->getId());
-
-        if (!$utilisateur) {
-            throw $this->createNotFoundException('Utilisateur non trouvé.');
-        }
-
-        $form = $this->createForm(RegistrationFormType::class, $utilisateur);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->flush();
-            $this->addFlash('success', 'Profile updated successfully.');
-
-            return $this->redirectToRoute('app_profile');
-        }
-
-        return $this->render('back/gestionuser/profile.html.twig', [
-            'utilisateur' => $utilisateur,
-            'form' => $form->createView(),
-        ]);
+    if (!$currentUser) {
+        // Redirige l'utilisateur vers la page de connexion si non connecté
+        $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
+        return $this->redirectToRoute('app_login');
     }
-    
+
+    // Redirection basée sur le rôle de l'utilisateur
+    if (in_array('ROLE_ADMIN', $currentUser->getRoles())) {
+        // Redirige vers le tableau de bord admin si l'utilisateur est un administrateur
+        return $this->redirectToRoute('admin_dashboard');
+    }
+
+    if (in_array('ROLE_TEACHER', $currentUser->getRoles())) {
+        // Redirige les enseignants vers leur profil spécifique
+        return $this->redirectToRoute('teacher_profile');
+    }
+
+    if (in_array('ROLE_STUDENT', $currentUser->getRoles())) {
+        // Redirige les étudiants vers leur profil spécifique
+        return $this->redirectToRoute('student_profile');
+    }
+
+    // Si l'utilisateur n'est ni admin, ni enseignant, ni étudiant, on récupère son profil
+    $utilisateur = $this->entityManager->getRepository(Utilisateur::class)->find($currentUser->getId());
+
+    if (!$utilisateur) {
+        // L'utilisateur n'est pas trouvé dans la base de données
+        throw $this->createNotFoundException('Utilisateur non trouvé.');
+    }
+
+    // Gestion du formulaire de modification du profil
+    $form = $this->createForm(RegistrationFormType::class, $utilisateur);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Sauvegarde des modifications apportées au profil
+        $this->entityManager->flush();
+        $this->addFlash('success', 'Profil mis à jour avec succès.');
+
+        return $this->redirectToRoute('app_profile');
+    }
+
+    // Rendu de la page de profil
+    return $this->render('back/gestionuser/profile.html.twig', [
+        'utilisateur' => $utilisateur,
+        'form' => $form->createView(),
+    ]);
+}
+
 
     /**
      * @Route("/forgot-password", name="app_dashForget")

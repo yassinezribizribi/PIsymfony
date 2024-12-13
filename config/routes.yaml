@@ -13,6 +13,14 @@ google_auth:
 app_profile:
     path: /utilisateur/profile
     controller: App\Controller\UtilisateurController::profile
+teacher_profile:
+    path: /teacher/profile
+    controller: App\Controller\SecurityController::teacherProfile
+
+student_profile:
+    path: /student/profile
+    controller: App\Controller\SecurityController::studentProfile
+
 user_show:
     path: /user/{id}
     controller: App\Controller\AdminController::showUser
