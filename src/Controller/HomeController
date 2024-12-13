@@ -1,0 +1,25 @@
+<?php
+
+// src/Controller/HomeController.php
+namespace App\Controller;
+
+use App\Repository\CoursRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class HomeController extends AbstractController
+{
+    /**
+     * @Route("/", name="home")
+     */
+    public function index(CoursRepository $coursRepository): Response
+    {
+        // Récupérer les 6 premiers cours
+        $cours = $coursRepository->findBy([], [], 6); 
+
+        return $this->render('pages/index.html.twig', [
+            'cours' => $cours, // Assurez-vous que la variable 'cours' est correctement envoyée
+        ]);
+    }
+}

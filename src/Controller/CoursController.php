@@ -17,7 +17,7 @@ use Stripe\Checkout\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-#[Route('/admin/cours')]
+#[Route('/ad/cours')]
 final class CoursController extends AbstractController
 {
     #[Route(name: 'app_cours_index', methods: ['GET'])]
@@ -27,6 +27,17 @@ final class CoursController extends AbstractController
             'cours' => $coursRepository->findAll(),
         ]);
     }
+
+    // src/Controller/CoursController.php
+
+#[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
+public function show(Cours $cour): Response
+{
+    return $this->render('cours/show.html.twig', [
+        'cour' => $cour,
+    ]);
+}
+
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -124,4 +135,35 @@ final class CoursController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    // src/Controller/CoursController.php
+
+#[Route('/{id}/delete', name: 'app_cours_delete', methods: ['POST'])]
+public function delete(Request $request, Cours $cour, EntityManagerInterface $entityManager): Response
+{
+    // Vérification du token CSRF pour éviter les attaques CSRF
+    if ($this->isCsrfTokenValid('delete' . $cour->getId(), $request->request->get('_token'))) {
+        // Supprimer l'image et le contenu si existants
+        if ($cour->getImage() && file_exists($this->getParameter('images_directory') . '/' . $cour->getImage())) {
+            unlink($this->getParameter('images_directory') . '/' . $cour->getImage());
+        }
+
+        if ($cour->getContenu() && file_exists($this->getParameter('uploads_directory') . '/' . $cour->getContenu())) {
+            unlink($this->getParameter('uploads_directory') . '/' . $cour->getContenu());
+        }
+
+        // Supprimer le cours de la base de données
+        $entityManager->remove($cour);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le cours a été supprimé avec succès.');
+    } else {
+        $this->addFlash('error', 'Erreur lors de la suppression du cours.');
+    }
+
+    return $this->redirectToRoute('app_cours_index');
+}
+
+
+    
 }
