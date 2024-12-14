@@ -16,6 +16,12 @@ class Evenement
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageevenement = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $videoevenement = null;
+
     #[ORM\Column(length: 255)]
     private ?string $titreEven = null;
 
@@ -28,15 +34,20 @@ class Evenement
     #[ORM\Column(length: 255)]
     private ?string $lieu = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $nbLimiteParticipants = null;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: false)]
+    private ?float $prixevenement = null;
+
     #[ORM\ManyToOne(inversedBy: 'evenements')]
     private ?Utilisateur $utilisateur = null;
 
     /**
      * @var Collection<int, Participation>
      */
-    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Participation::class, mappedBy: 'evenement', cascade: ['remove'], orphanRemoval: true)]
     private Collection $participations;
-
     public function __construct()
     {
         $this->participations = new ArrayCollection();
@@ -45,6 +56,30 @@ class Evenement
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getImageevenement(): ?string
+    {
+        return $this->imageevenement;
+    }
+
+    public function setImageevenement(?string $imageevenement): static
+    {
+        $this->imageevenement = $imageevenement;
+
+        return $this;
+    }
+
+    public function getVideoevenement(): ?string
+    {
+        return $this->videoevenement;
+    }
+
+    public function setVideoevenement(?string $videoevenement): static
+    {
+        $this->videoevenement = $videoevenement;
+
+        return $this;
     }
 
     public function getTitreEven(): ?string
@@ -95,6 +130,30 @@ class Evenement
         return $this;
     }
 
+    public function getNbLimiteParticipants(): ?int
+    {
+        return $this->nbLimiteParticipants;
+    }
+
+    public function setNbLimiteParticipants(?int $nbLimiteParticipants): static
+    {
+        $this->nbLimiteParticipants = $nbLimiteParticipants;
+
+        return $this;
+    }
+
+    public function getPrixEvenement(): ?float
+    {
+        return $this->prixevenement;
+    }
+
+    public function setPrixEvenement(float $prix): static
+    {
+        $this->prixevenement = $prix;
+
+        return $this;
+    }
+
     public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
@@ -135,5 +194,15 @@ class Evenement
         }
 
         return $this;
+    }
+
+    public function isComplete(): bool
+    {
+        // Ajout d'une vérification basique pour éviter des erreurs
+        if ($this->getNbLimiteParticipants() === null || count($this->participations) === null) {
+            return false;
+        }
+
+        return count($this->participations) >= $this->getNbLimiteParticipants();
     }
 }

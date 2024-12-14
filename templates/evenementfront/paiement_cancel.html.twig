@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement annulé{% endblock %}
+
+{% block body %}
+<br><br><br><br><br>
+
+    <div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh; background-color: #f9f9f9;">
+        <div class="card shadow-lg p-5 rounded" style="max-width: 600px; width: 100%; background-color: #ffffff;">
+            <div class="text-center">
+                <i class="bi bi-x-circle" style="font-size: 4rem; color: #dc3545;"></i>
+                <h1 class="mt-4" style="color: #dc3545;">Paiement annulé</h1>
+                <p class="lead" style="color: #333;">Désolé, le paiement n'a pas pu être traité.</p>
+                <p style="color: #666;">Il semble que le paiement ait été annulé ou échoué. Vous pouvez essayer à nouveau ou choisir une autre méthode de paiement.</p>
+                <p style="color: #666;">Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+                <a href="{{ path('page_events') }}" class="btn btn-danger btn-lg mt-4" style="width: 200px; font-size: 1.2rem; text-transform: uppercase;">
+                    Retour à la liste des evenements
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

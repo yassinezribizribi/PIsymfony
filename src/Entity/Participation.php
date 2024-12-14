@@ -21,6 +21,7 @@ class Participation
     private ?Utilisateur $utilisateur = null;
 
     #[ORM\ManyToOne(inversedBy: 'participations')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Evenement $evenement = null;
 
     public function getId(): ?int
@@ -33,7 +34,7 @@ class Participation
         return $this->dateParticipation;
     }
 
-    public function setDateParticipation(\DateTimeInterface $dateParticipation): static
+    public function setDateParticipation(\DateTimeInterface $dateParticipation): self
     {
         $this->dateParticipation = $dateParticipation;
 
@@ -45,7 +46,7 @@ class Participation
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): static
+    public function setUtilisateur(?Utilisateur $utilisateur): self
     {
         $this->utilisateur = $utilisateur;
 
@@ -57,7 +58,7 @@ class Participation
         return $this->evenement;
     }
 
-    public function setEvenement(?Evenement $evenement): static
+    public function setEvenement(?Evenement $evenement): self
     {
         $this->evenement = $evenement;
 

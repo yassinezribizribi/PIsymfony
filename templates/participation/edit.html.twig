@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Participation{% endblock %}
+
+{% block body %}
+<section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); height: 300px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="#">Edit Participation</a></li>
+        </ul>
+        <p class="text-lighten">Edit your participation details below.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Form for editing participation -->
+<form method="post" action="{{ path('app_participation_edit', { 'id': participation.id }) }}">
+    {{ form_start(form) }}
+    {{ form_row(form) }}  <!-- This will render all the fields of the form -->
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    {{ form_end(form) }}
+</form>
+
+<a href="{{ path('app_participation_index') }}" class="btn btn-secondary mt-3">Back to list</a>
+
+{% endblock %}

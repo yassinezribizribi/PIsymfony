@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement réussi{% endblock %}
+
+{% block body %}
+<br><br><br><br><br>
+    <div class="container mt-5 pt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 text-center">
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-body p-5">
+                        <h1 class="display-4 text-success mb-4">
+                            <i class="fas fa-check-circle"></i> Paiement réussi !
+                        </h1>
+                        <p class="lead mb-4">Votre paiement a été traité avec succès. Merci pour votre achat !</p>
+                        <p class="text-muted mb-4">
+                            Vous pouvez maintenant aller a l'evenement.
+                        </p>
+                        <a href="{{ path('page_events') }}" class="btn btn-success btn-lg mt-4">
+                            Retour à la liste des evenements
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+
+    <style>
+        /* Ajout de styles CSS pour améliorer l'apparence */
+        body {
+            background-color: #f4f7fc;
+        }
+        .card {
+            background-color: #ffffff;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .card-body {
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+{% endblock %}

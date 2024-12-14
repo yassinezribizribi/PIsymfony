@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    {{ form_row(form.titreEven) }}
+    {{ form_row(form.descriptionEven) }}
+    {{ form_row(form.dateEvenement) }}
+    {{ form_row(form.lieu) }}
+    {{ form_row(form.nbLimiteParticipants) }}
+
+    <!-- Field for photo -->
+    <div class="form-group">
+        {{ form_label(form.imageevenement) }}
+        {{ form_widget(form.imageevenement) }}
+        <small class="form-text text-muted">Upload a new photo if needed.</small>
+    </div>
+
+    <!-- Field for video -->
+    <div class="form-group">
+        {{ form_label(form.videoevenement) }}
+        {{ form_widget(form.videoevenement) }}
+        <small class="form-text text-muted">Upload a new video if needed.</small>
+    </div>
+
+    <button type="submit" class="btn btn-warning btn-lg text-white">Update Event</button>
+{{ form_end(form) }}

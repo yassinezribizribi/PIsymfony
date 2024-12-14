@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvel événement{% endblock %}
+
+{% block body %}
+    <!-- Page Header Section with Background -->
+    <section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}');height: 300px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-inline custom-breadcrumb">
+                        <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="#">Créer un Nouvel Événement</a></li>
+                    </ul>
+                    <p class="text-lighten">Remplissez le formulaire ci-dessous pour ajouter un nouvel événement avec une image, une vidéo, et un prix.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Form Section with Card Design -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <!-- Event Creation Card -->
+                    <div class="card shadow-lg border-light rounded-lg">
+                        <div class="card-body p-4">
+                            <!-- Event Creation Form Title -->
+                            <h3 class="text-center text-dark mb-4">Formulaire de Création d'Événement</h3>
+                            
+                            <!-- Event Form -->
+                            {{ form_start(form) }}
+                            <div class="row gy-3">
+                                <!-- Titre -->
+                                <div class="col-md-12">
+                                    {{ form_row(form.titreEven, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                
+                                <!-- Date de l'événement -->
+                                <div class="col-md-12">
+                                    {{ form_row(form.dateEvenement, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+
+                                <!-- Image -->
+                                <div class="col-md-12">
+                                    <label for="image" class="form-label fw-bold">Image de l'événement :</label>
+                                    {{ form_widget(form.imageevenement, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                                </div>
+
+                                <!-- Vidéo -->
+                                <div class="col-md-12">
+                                    <label for="video" class="form-label fw-bold">Vidéo de l'événement :</label>
+                                    {{ form_widget(form.videoevenement, {'attr': {'class': 'form-control shadow-sm'}}) }}
+                                </div>
+
+                                <!-- Prix -->
+                                <div class="col-md-12">
+                                    <label for="prix" class="form-label fw-bold">Prix :</label>
+                                    {{ form_widget(form.prixevenement, {'attr': {'class': 'form-control shadow-sm', 'placeholder': 'Entrez le prix en euros'}}) }}
+                                </div>
+                            </div>
+                             <div class="text-center mt-4">
+                                <button class="btn btn-success btn-lg shadow-sm px-4">Créer l'Événement</button>
+                            </div>
+                            {{ form_end(form) }}
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+{% endblock %}

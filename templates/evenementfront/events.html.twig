@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ÉVÉNEMENTS{% endblock %}
+
+{% block body %}
+
+<!-- Section du titre de la page -->
+<section class="page-title-section overlay" data-background="images/backgrounds/page-title.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="#">Événements à venir</a></li>
+        </ul>
+        <p class="text-lighten">Rejoignez-nous pour des moments inoubliables !</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Section du titre -->
+
+<!-- Section Recherche et Événements -->
+<section class="section">
+  <div class="container">
+    <!-- Filtres -->
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <input 
+          type="text" 
+          id="search-location" 
+          class="form-control" 
+          placeholder="Rechercher par lieu..." 
+          onkeyup="filterEvents()">
+      </div>
+      <div class="col-md-4">
+        <select 
+          id="price-sort" 
+          class="form-control" 
+          onchange="sortEventsByPrice()">
+          <option value="">Trier par prix</option>
+          <option value="asc">Prix croissant</option>
+          <option value="desc">Prix décroissant</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Liste des événements -->
+    <div class="row" id="events-list">
+      {% for evenement in evenementss %}
+        {% set participationCount = participationCounts | filter(p => p.evenementId == evenement.id) | first %}
+        {% set nbParticipants = participationCount.nbParticipants ?? 0 %}
+        {% set evenementCloture = (nbParticipants >= evenement.nbLimiteParticipants) %}
+
+        <div class="col-lg-4 col-md-6 mb-4 event-item" 
+             data-location="{{ evenement.lieu | lower }}" 
+             data-price="{{ evenement.prixevenement ?? 0 }}">
+          <div class="card border-0 rounded-0 hover-shadow h-100">
+            <div class="card-img position-relative" style="height: 200px; overflow: hidden;">
+              {% if evenement.imageevenement %}
+                <img src="{{ asset('uploads/images/' ~ evenement.imageevenement) }}" 
+                     alt="Image de l'événement {{ evenement.titreEven }}" 
+                     class="img-fluid w-100 h-100" 
+                     style="object-fit: cover;">
+              {% else %}
+                <div class="d-flex justify-content-center align-items-center bg-light" style="height: 100%; width: 100%;">
+                  <p class="text-muted mb-0">Image indisponible</p>
+                </div>
+              {% endif %}
+              <div class="card-date">
+                <span>{{ evenement.dateEvenement ? evenement.dateEvenement|date('d') : '' }}</span>
+                <br>{{ evenement.dateEvenement ? evenement.dateEvenement|date('F') : '' }}
+              </div>
+            </div>
+            <div class="card-body d-flex flex-column">
+              <p>
+                <i class="ti-location-pin text-primary mr-2"></i>
+                {{ evenement.lieu }}
+              </p>
+              <a href="{{ evenementCloture ? '#' : path('app_evenement_show_student', {'id': evenement.id}) }}" 
+                 class="mb-2 {{ evenementCloture ? 'disabled-link' : '' }}">
+                <h4 class="card-title">{{ evenement.titreEven }}</h4>
+              </a>
+              <p class="text-primary font-weight-bold">Prix: {{ evenement.prixevenement ? evenement.prixevenement ~ ' €' : 'Gratuit' }}</p>
+              {% if evenementCloture %}
+                <p class="text-danger font-weight-bold mt-auto">Cet événement est complet.</p>
+              {% else %}
+                <p class="text-success mt-auto">Places disponibles : {{ evenement.nbLimiteParticipants - nbParticipants }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="col-12 text-center">
+          <p>Aucun événement trouvé</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Fonction JavaScript pour filtrer les événements par lieu
+  function filterEvents() {
+    const input = document.getElementById('search-location').value.toLowerCase();
+    const eventItems = document.querySelectorAll('.event-item');
+
+    eventItems.forEach(item => {
+      const location = item.getAttribute('data-location');
+      if (location.includes(input)) {
+        item.style.display = ''; // Afficher l'élément
+      } else {
+        item.style.display = 'none'; // Cacher l'élément
+      }
+    });
+  }
+
+  // Fonction JavaScript pour trier les événements par prix
+  function sortEventsByPrice() {
+    const sortOption = document.getElementById('price-sort').value;
+    const eventsList = document.getElementById('events-list');
+    const events = Array.from(eventsList.querySelectorAll('.event-item'));
+
+    events.sort((a, b) => {
+      const priceA = parseFloat(a.getAttribute('data-price'));
+      const priceB = parseFloat(b.getAttribute('data-price'));
+
+      return sortOption === 'asc' ? priceA - priceB : priceB - priceA;
+    });
+
+    // Réorganiser les événements dans le DOM
+    events.forEach(event => eventsList.appendChild(event));
+  }
+</script>
+
+{% endblock %}

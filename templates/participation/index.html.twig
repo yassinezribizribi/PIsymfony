@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Participation index{% endblock %}
+
+{% block body %}
+<section class="page-title-section overlay" data-background="images/backgrounds/page-title.jpg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <ul class="list-inline custom-breadcrumb">
+          <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="#">Participation index</a></li>
+          <li class="list-inline-item text-white h3 font-secondary"></li>
+        </ul>
+        <p class="text-lighten">Here you can view and manage all participations in the system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<h1>Liste des Participations</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID Participation</th>
+            <th>Titre Événement</th>
+            <th>Date Participation</th>
+            <th>Nombre de Participants</th>
+            <th>Nombre Limite de Participants</th> <!-- Nouvelle colonne -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for participation in participationsDetails %}
+            <tr>
+                <td>{{ participation.participationId }}</td>
+                <td>{{ participation.titreEvenement }}</td>
+                <td>{{ participation.dateParticipation ? participation.dateParticipation|date('Y-m-d') : 'N/A' }}</td>
+                <td>{{ participation.nbParticipants }}</td>
+                <td>
+                    {# Récupérer la limite depuis la liste des événements si elle est disponible #}
+                    {% set event = participationsAllDetails | filter(e => e.id == participation.participationId) | first %}
+                    {{ event.evenement.nbLimiteParticipants ?? 'N/A' }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Aucune participation trouvée.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

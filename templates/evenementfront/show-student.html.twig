@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block body %}
+    <!-- Page Title Section with Background Color -->
+    <section class="page-title-section overlay" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); height: 300px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-inline custom-breadcrumb">
+                        <li class="list-inline-item"><a class="h2 text-primary font-secondary" href="@@page-link">Event Details</a></li>
+                        <li class="list-inline-item text-white h3 font-secondary @@nasted"></li>
+                    </ul>
+                    <p class="text-lighten">Below are the details for the selected event.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details Section -->
+    <section class="section-sm">
+        <div class="container">
+            <div class="row">
+                <!-- Event Details Card -->
+                <div class="col-12">
+                    <div class="card shadow-lg border-light rounded w-100">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Event Image (on the left) -->
+                                <div class="col-md-4 mb-4">
+                                    {% if evenement.imageevenement %}
+                                        <img src="{{ asset('uploads/images/' ~ evenement.imageevenement) }}" alt="Event Image" class="img-fluid w-100 rounded">
+                                    {% else %}
+                                        <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px;">
+                                            <p class="text-muted mb-0">No image available</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Event Info and Payment Section (on the right) -->
+                                <div class="col-md-8">
+                                    <h2 class="section-title">{{ evenement.titreEven }}</h2>
+
+                                    <!-- Event Info List -->
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item mr-xl-5 mr-4 mb-3 mb-lg-0">
+                                            <div class="d-flex align-items-center">
+                                                <i class="ti-location-pin text-primary icon-md mr-2"></i>
+                                                <div class="text-left">
+                                                    <h6 class="mb-0">Location</h6>
+                                                    <p class="mb-0">{{ evenement.lieu }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-inline-item mr-xl-5 mr-4 mb-3 mb-lg-0">
+                                            <div class="d-flex align-items-center">
+                                                <i class="ti-calendar text-primary icon-md mr-2"></i>
+                                                <div class="text-left">
+                                                    <h6 class="mb-0">Date</h6>
+                                                    <p class="mb-0">{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% if evenement.prixEvenement %}
+                                        <li class="list-inline-item mr-xl-5 mr-4 mb-3 mb-lg-0">
+                                            <div class="d-flex align-items-center">
+                                                <i class="ti-money text-primary icon-md mr-2"></i>
+                                                <div class="text-left">
+                                                    <h6 class="mb-0">Price</h6>
+                                                    <p class="mb-0">{{ evenement.prixEvenement }} $</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% else %}
+                                            <li class="list-inline-item mr-xl-5 mr-4 mb-3 mb-lg-0">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="ti-money text-primary icon-md mr-2"></i>
+                                                    <div class="text-left">
+                                                        <h6 class="mb-0">Price</h6>
+                                                        <p class="mb-0">Price not specified</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+
+                                    <!-- Event Description -->
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item mr-xl-5 mr-4 mb-3 mb-lg-0">
+                                            <div class="d-flex align-items-center">
+                                                <i class="ti-info text-primary icon-md mr-2"></i>
+                                                <div class="text-left">
+                                                    <h6 class="mb-0">Description</h6>
+                                                    <p class="mb-0">{{ evenement.descriptionEven }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Payment Button -->
+                                    <div class="text-right mt-4">
+                                        <button id="checkout-button" class="btn btn-success btn-lg">Acheter maintenant</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Video Section (below the image and event info) -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    {% if evenement.videoevenement %}
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video class="embed-responsive-item" controls>
+                                <source src="{{ asset('uploads/videos/' ~ evenement.videoevenement) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    {% else %}
+                        <p>No video available</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Back to List Button -->
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    {% for message in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    <a href="{{ path('page_events') }}" class="btn btn-primary">
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        const stripe = Stripe('{{ stripe_public_key }}'); // Initialize Stripe with the public key
+
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            // Call the backend route to create a payment session
+            fetch("{{ path('front_evenement_paiement', {id: evenement.id}) }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    // Redirect user to the Stripe checkout page
+                    stripe.redirectToCheckout({ sessionId: data.id });
+                } else {
+                    alert('Error creating payment session.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+{% endblock %}

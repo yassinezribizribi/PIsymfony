@@ -26,11 +26,7 @@ class PagesController extends AbstractController
         return $this->render('pages/courses.html.twig');
     }
 
-    #[Route('/events', name: 'page_events')]
-    public function events(): Response
-    {
-        return $this->render('pages/events.html.twig');
-    }
+   
     
     #[Route('/blog', name: 'page_blog')]
     public function blog(): Response
