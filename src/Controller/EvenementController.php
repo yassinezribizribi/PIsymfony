@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Evenement;
 use App\Form\EvenementType;
+use App\Entity\Cours;
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,13 +86,19 @@ final class EvenementController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_evenement_show', methods: ['GET'])]
-    public function show(Evenement $evenement): Response
-    {
-        return $this->render('evenement/show.html.twig', [
-            'evenement' => $evenement,
-        ]);
+    public function showStudent(int $id, EntityManagerInterface $entityManager): Response
+{
+    $evenement = $entityManager->getRepository(Evenement::class)->find($id);
+
+    if (!$evenement) {
+        throw $this->createNotFoundException("L'événement avec l'ID $id n'a pas été trouvé.");
     }
+
+    return $this->render('evenement/show.html.twig', [
+        'evenement' => $evenement,
+    ]);
+}
+
 
     #[Route('/{id}/edit', name: 'app_evenement_edit', methods: ['GET', 'POST'])]
     public function edit(

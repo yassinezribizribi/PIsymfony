@@ -4,7 +4,7 @@ namespace App\Repository;
 use App\Entity\Utilisateur;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -26,7 +26,7 @@ class UtilisateurRepository extends ServiceEntityRepository implements UserProvi
         $user = $this->findOneBy(['email' => $email]);
 
         if (!$user) {
-            throw new UsernameNotFoundException("L'utilisateur avec l'email $email n'a pas été trouvé.");
+            throw new UserNotFoundException("L'utilisateur avec l'email $email n'a pas été trouvé.");
         }
 
         return $user;
@@ -54,7 +54,7 @@ class UtilisateurRepository extends ServiceEntityRepository implements UserProvi
      * Find users by role
      *
      * @param string $role
-     * @return User[]
+     * @return Utilisateur[]
      */
     public function findByRole(string $role): array
 {

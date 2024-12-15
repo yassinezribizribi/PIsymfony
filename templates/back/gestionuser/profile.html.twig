@@ -1,23 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<section class="page-title-section" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); background-size: cover; background-position: center; position: relative;">
+<section class="page-title-section" style="background-image: url('{{ asset('images/backgrounds/page-title.jpg') }}'); background-size: cover; background-position: center; position: relative; padding: 80px 0;">
+  <div class="overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4);"></div>
+</section>
 
-<br><br><br><br><br><br>
-<!-- Utilisation de la classe container pour une meilleure gestion de l'espace -->
+<!-- Container Principal -->
 <div class="container my-5">
-  <!-- Profil utilisateur -->
-  <div class="card mb-4 shadow-lg">
+
+  <!-- Profil Utilisateur -->
+  <div class="card mb-4 shadow-lg animated fadeInUp" style="transition: transform 0.3s ease; border-radius: 15px;">
     <div class="card-body">
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-lg-8">
-          <h4 class="mb-3">
+          <h4 class="mb-3 text-primary">
             {{ utilisateur.nom }} {{ utilisateur.prenomUser }}
             <span data-bs-toggle="tooltip" data-bs-placement="right" title="Verified">
-              <small class="fa fa-check-circle text-primary" data-fa-transform="shrink-4 down-2"></small>
+              <small class="fa fa-check-circle text-success" data-fa-transform="shrink-4 down-2"></small>
             </span>
           </h4>
-          <!-- Placement du formulaire avec plus d'espace -->
           <div class="d-flex justify-content-end">
             {{ form_start(form) }}
             {{ form_end(form) }}
@@ -27,20 +28,20 @@
     </div>
   </div>
 
-  <!-- Détails utilisateur -->
+  <!-- Détails Utilisateur -->
   <div class="row g-3">
     <div class="col-lg-8">
-      <div class="card mb-3 shadow-sm">
+      <div class="card mb-3 shadow-sm animated slideInUp">
         <div class="card-header bg-primary text-white">
           <h4 class="mb-0">Détails</h4>
         </div>
         <div class="card-body text-justify">
           <div class="collapse show" id="profile-intro">
             <p class="mt-3 text-1000">
-              <h5>Nom et Prénom :</h5><span>{{ utilisateur.nom }} {{ utilisateur.prenomUser }}</span>
+              <strong>Nom et Prénom :</strong><span>{{ utilisateur.nom }} {{ utilisateur.prenomUser }}</span>
             </p>
             <p class="mt-3 text-1000">
-              <h5>Adresse E-mail :</h5><span>{{ utilisateur.email }}</span>
+              <strong>Adresse E-mail :</strong><span>{{ utilisateur.email }}</span>
             </p>
           </div>
         </div>
@@ -52,12 +53,11 @@
       </div>
 
       <!-- Notifications -->
-      <div class="card mb-3 shadow-sm">
+      <div class="card mb-3 shadow-sm animated fadeInLeft">
         <div class="card-header bg-light d-flex justify-content-between">
-          <h5 class="mb-0">Annonces</h5><a class="font-sans-serif" href="events.html.twig">All logs</a>
+          <h5 class="mb-0">Annonces</h5><a class="font-sans-serif" href="events.html.twig">Tous les logs</a>
         </div>
         <div class="card-body fs--1 p-0">
-          <!-- Exemple d'une notification -->
           <a class="border-bottom-0 notification rounded-0 border-x-0 border border-300" href="#!">
             <div class="notification-avatar">
               <div class="avatar avatar-xl me-3">
@@ -73,37 +73,73 @@
       </div>
     </div>
 
-    <!-- Sidebar évènements -->
+    <!-- Affichage des Événements -->
     <div class="col-lg-4">
-      <div class="sticky-sidebar">
-        <div class="card mb-3 mb-lg-0 shadow-sm">
-          <div class="card-header bg-light">
-            <h5 class="mb-0">Evènements</h5>
-          </div>
-          <div class="card-body fs--1">
-            <div class="d-flex btn-reveal-trigger">
-              <div class="calendar"><span class="calendar-month">Feb</span><span class="calendar-day">21</span></div>
-              <div class="flex-1 position-relative ps-3">
-                <h6 class="fs-0 mb-0"><a href="app/events/event-detail.html">Newmarket Nights</a></h6>
-                <p class="mb-1">Organized by <a href="#!" class="text-700">University of Oxford</a></p>
-                <p class="text-1000 mb-0">Time: 6:00AM</p>
-                <p class="text-1000 mb-0">Duration: 6:00AM - 5:00PM</p>
-                <p class="text-1000 mb-0">Place: Cambridge Boat Club, Cambridge</p>
-                <div class="border-dashed-bottom my-3"></div>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer bg-light p-0 border-top">
-            <a class="btn btn-link d-block w-100" href="app/events/event-list.html">All Events<span class="fas fa-chevron-right ms-1 fs--2"></span></a>
+      <div class="card mb-3 shadow-sm animated fadeInRight">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Événements</h4>
+        </div>
+        <div class="card-body p-2">
+          <div class="list-group">
+            {% for evenement in evenements %}
+              <a href="{{ path('evenement_show', {'id': evenement.id}) }}" class="list-group-item list-group-item-action d-flex align-items-center py-3 border-bottom">
+                <div class="me-3">
+                  <i class="fas fa-calendar-check text-primary"></i>
+                </div>
+                <div>
+                  <h6 class="mb-0">{{ evenement.title }}</h6>
+                  <span class="text-muted">{{ evenement.date | date('d/m/Y') }}</span>
+                </div>
+              </a>
+            {% else %}
+              <p>Aucun événement à afficher.</p>
+            {% endfor %}
           </div>
         </div>
       </div>
     </div>
+
   </div>
 
-  <!-- Bouton de déconnexion -->
-  <div class="d-flex justify-content-center mt-4">
-    <a href="{{ path('app_logout') }}" class="btn btn-danger">Déconnexion</a>
+  <!-- Section des Boutons -->
+  <div class="d-flex justify-content-between mt-4">
+    <div>
+      <a href="{{ path('user_edit', {'id': utilisateur.id}) }}" class="btn btn-warning btn-lg rounded-pill shadow-sm transition-all">
+        <i class="fas fa-user-edit"></i> Modifier Profil
+      </a>
+    </div>
   </div>
+
 </div>
+
+<!-- Bouton de Déconnexion -->
+<div class="d-flex justify-content-center mt-4">
+  <a href="{{ path('app_logout') }}" class="btn btn-danger btn-lg rounded-pill shadow-sm transition-all">
+    <i class="fas fa-sign-out-alt"></i> Déconnexion
+  </a>
+</div>
+<br><br><br><br><br><br><br>
+
+{% endblock %}
+
+{% block stylesheets %}
+  <style>
+    .transition-all {
+      transition: all 0.3s ease;
+    }
+
+    .transition-all:hover {
+      transform: scale(1.05);
+      background-color: #e9a800;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+  </style>
 {% endblock %}

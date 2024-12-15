@@ -3,76 +3,139 @@
 {% block title %}Tableau de Bord Enseignant{% endblock %}
 
 {% block body %}
-
-<br><br><br><br><br><br><br><br><br><br>
-<div class="container mt-4">
+<br><br><br><br><br><br><br><br><br>
+<div class="container mt-5">
     <!-- Titre principal -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-primary">Bienvenue, {{ app.user.nom }}</h1>
-        <a href="{{ path('app_home') }}" class="btn btn-danger">Se déconnecter</a>
+        <h1 class="display-4 text-primary fade-in">Bienvenue, {{ app.user.nom }}</h1>
+        <a href="{{ path('app_logout') }}" class="btn btn-danger btn-lg bounce-in">Se déconnecter</a>
     </div>
 
     <!-- Informations principales -->
     <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Cours Total</h5>
-                    <p class="card-text text-primary display-4">{{ courses|length }}</p>
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-3 zoom-in">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-uppercase font-weight-bold">Cours Total</h5>
+                    <p class="card-text text-primary display-3">{{ courses|length }}</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Étudiants Inscrits</h5>
-                    <p class="card-text text-success display-4">{{ students|length }}</p>
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-lg border-0 rounded-3 zoom-in">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-uppercase font-weight-bold">Étudiants Inscrits</h5>
+                    <p class="card-text text-success display-3">{{ students|length }}</p>
                 </div>
             </div>
         </div>
-        
     </div>
 
-    <!-- Bouton Ajouter Cours -->
-    <div class="mb-4">
-        <a href="{{ path('app_cours_new') }}" class="btn btn-success">Ajouter Cours</a>
+    <!-- Section Ajouter Cours et Ajouter Événement -->
+    <div class="d-flex justify-content-between mb-4">
+        <a href="{{ path('app_cours_new') }}" class="btn btn-success btn-lg text-uppercase pulse-in">Ajouter Cours</a>
+        <a href="{{ path('app_evenement_new') }}" class="btn btn-primary btn-lg text-uppercase pulse-in">Ajouter Événement</a>
     </div>
 
-    <!-- Liste des cours -->
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+    <!-- Liste des Cours -->
+    <div class="card shadow-lg border-0 rounded-3 slide-up">
+        <div class="card-header bg-primary text-white text-center">
             <h4 class="mb-0">Vos Cours</h4>
         </div>
         <div class="card-body">
-            <table class="table table-striped table-hover">
+            <table class="table table-hover table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
                         <th>Nom du Cours</th>
                         <th>Date de Création</th>
-                        
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for course in courses %}
-                        <tr>
+                        <tr class="table-row fade-in-up">
                             <td>{{ loop.index }}</td>
                             <td>{{ course.titreCours }}</td>
                             <td>{{ course.dateDebut|date('d-m-Y') }}</td>
-                             <td>
-                                <a href="{{ path('app_cours_edit', { id: course.id }) }}" class="btn btn-sm btn-primary">Modifier</a>
+                            <td>
+                                <a href="{{ path('app_cours_edit', { id: course.id }) }}" class="btn btn-sm btn-info">Modifier</a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="5" class="text-center text-muted">Aucun cours disponible.</td>
+                            <td colspan="4" class="text-center text-muted">Aucun cours disponible.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
+
+<!-- Ajout des animations CSS dans la balise style -->
+<style>
+    /* Animation Fade In */
+    .fade-in {
+        animation: fadeIn 2s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Animation Bounce In */
+    .bounce-in {
+        animation: bounceIn 1s ease-out;
+    }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Animation Zoom In */
+    .zoom-in {
+        animation: zoomIn 0.8s ease-out;
+    }
+
+    @keyframes zoomIn {
+        from { transform: scale(0.7); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Animation Pulse In */
+    .pulse-in {
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    /* Animation Slide Up */
+    .slide-up {
+        animation: slideUp 1s ease-out;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Animation Fade In Up for table rows */
+    .fade-in-up {
+        animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
 {% endblock %}

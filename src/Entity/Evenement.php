@@ -37,8 +37,10 @@ class Evenement
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $nbLimiteParticipants = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: false)]
-    private ?float $prixevenement = null;
+    /**
+ * @ORM\Column(type="decimal", precision=10, scale=2)
+ */
+private $prixevenement;
 
     #[ORM\ManyToOne(inversedBy: 'evenements')]
     private ?Utilisateur $utilisateur = null;

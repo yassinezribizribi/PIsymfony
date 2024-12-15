@@ -35,4 +35,10 @@ user_edit:
 user_delete:
   path: /user/{id}/delete
   controller: App\Controller\AdminController::delete
+app_evenement_show_student:
+    path: /evenement/{id}
+    controller: App\Controller\EvenementfrontController::showStudent
+    requirements:
+        id: \d+
+
 

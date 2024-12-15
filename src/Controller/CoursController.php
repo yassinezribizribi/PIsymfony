@@ -30,13 +30,14 @@ final class CoursController extends AbstractController
 
     // src/Controller/CoursController.php
 
-#[Route('/{id}', name: 'app_cours_show', methods: ['GET'])]
-public function show(Cours $cour): Response
-{
-    return $this->render('cours/show.html.twig', [
-        'cour' => $cour,
-    ]);
-}
+    #[Route('/cours/{id}', name: 'app_cours_show', methods: ['GET'])]
+    public function show(Cours $cours): Response
+    {
+        // Ici, Symfony tente de récupérer l'objet `Cours` par son ID
+        return $this->render('cours/show.html.twig', [
+            'cours' => $cours,
+        ]);
+    }
 
 
     #[Route('/new', name: 'app_cours_new', methods: ['GET', 'POST'])]
@@ -85,7 +86,7 @@ public function show(Cours $cour): Response
             $entityManager->persist($cour);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_cours_index');
+            return $this->redirectToRoute('app_profile');
         }
 
         return $this->render('cours/new.html.twig', [

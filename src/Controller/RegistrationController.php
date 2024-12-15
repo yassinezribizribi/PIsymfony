@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Cours;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Security\FormLoginAuthenticator;

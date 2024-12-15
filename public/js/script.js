@@ -35,9 +35,10 @@
     $('.hero-slider').slickAnimation();
 
     // venobox popup
-    $(document).ready(function(){
-        $('.venobox').venobox(); 
+    $(document).ready(function() {
+        $('.venobox').venobox();
     });
+    
 
     
     // mixitup filter

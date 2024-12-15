@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Cours;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +29,7 @@ class LoginController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         $errorC = $request->query->get('errorC');
 
-        return $this->render('front/gestionuser/login.html.twig', [
+        return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
             'captcha' => $errorC,
@@ -45,7 +45,7 @@ class LoginController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         $errorC = $request->query->get('errorC');
 
-        return $this->render('back/gestionuser/login.html.twig', [
+        return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
             'captcha' => $errorC,
@@ -82,10 +82,5 @@ class LoginController extends AbstractController
         return new JsonResponse($user->getId());
     }
 
-    #[Route('/forget-password', name: 'app_forget')]
-    public function forgetPassword(): Response
-    {
-    return $this->render('front/gestionuser/forget_password.html.twig');
-    }
-
+    
 }

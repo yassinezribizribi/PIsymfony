@@ -108,11 +108,10 @@ private Collection $taches;
     }
 
     
-        public function getId(): ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
 
     public function getNom(): ?string
     {

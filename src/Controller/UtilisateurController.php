@@ -39,6 +39,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 
+
 #[Route('/utilisateur')]
 final class UtilisateurController extends AbstractController{
     private $tokenStorage;
@@ -48,11 +49,11 @@ final class UtilisateurController extends AbstractController{
     // Déclaration de la propriété $security
 
 
-    public function __construct(TokenStorageInterface $tokenStorage, RequestStack $requestStack,Security $security, EntityManagerInterface $entityManager)
+    public function __construct(TokenStorageInterface $tokenStorage, RequestStack $requestStack, EntityManagerInterface $entityManager)
 {
     $this->tokenStorage = $tokenStorage;
     $this->requestStack = $requestStack;
-    $this->security = $security; // Initialisation de la propriété $security
+    
     $this->entityManager = $entityManager; 
 
 }

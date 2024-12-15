@@ -6,10 +6,13 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Cours;
 use App\Entity\Utilisateur;
-
+use App\Repository\EvenementRepository;
+use App\Entity\Evenement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use App\Form\RegistrationFormType;
 
 class SecurityController extends AbstractController
 {
@@ -44,29 +47,58 @@ class SecurityController extends AbstractController
         $courses = $this->entityManager
             ->getRepository(Cours::class)
             ->findAll();
-        
-    
-            $students = $this->entityManager
+
+        $students = $this->entityManager
             ->getRepository(Utilisateur::class)
             ->findByRole('ROLE_STUDENT');
 
-        // Passer les cours à la vue
+        // Passer les cours et étudiants à la vue
         return $this->render('back/gestionuser/profile1.html.twig', [
             'courses' => $courses,
             'students' => $students,
-
         ]);
     }
 
     /**
-     * Affiche le profil de l'étudiant.
+     * Affiche le profil de l'étudiant avec ses événements associés.
      */
-    public function studentProfile(): Response
+    public function studentProfile(Request $request, EvenementRepository $evenementRepository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('back/gestionuser/profile.html.twig'); // Vue pour étudiants
+        // Récupérer l'utilisateur connecté
+        $utilisateur = $this->getUser();
+
+        // Vérifier que l'utilisateur est récupéré
+        if (!$utilisateur) {
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
+        }
+
+        // Créer un formulaire d'édition du profil
+        $form = $this->createForm(RegistrationFormType::class, $utilisateur);
+
+        // Traiter le formulaire (si soumis)
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrer les modifications de l'utilisateur
+            $entityManager->flush();
+
+            // Ajouter un message flash pour informer l'utilisateur
+            $this->addFlash('success', 'Profil mis à jour avec succès!');
+
+            // Rediriger vers la même page pour recharger les informations
+            return $this->redirectToRoute('student_profile');
+        }
+
+        // Charger uniquement les événements associés à l'étudiant
+        $evenements = $evenementRepository->findBy([ 'utilisateur' => $utilisateur ]);
+
+        // Rendu de la vue avec l'utilisateur et les événements
+        return $this->render('back/gestionuser/profile.html.twig', [
+            'utilisateur' => $utilisateur,
+            'form' => $form->createView(),
+            'evenements' => $evenements, // Ajouter les événements à la vue
+        ]);
     }
-
-
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
