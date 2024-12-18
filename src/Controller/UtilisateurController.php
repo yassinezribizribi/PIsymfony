@@ -34,6 +34,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 
@@ -157,9 +158,8 @@ public function profile(Request $request): Response
         // Redirige les étudiants vers leur profil spécifique
         return $this->redirectToRoute('student_profile');
     }
-
     // Si l'utilisateur n'est ni admin, ni enseignant, ni étudiant, on récupère son profil
-    $utilisateur = $this->entityManager->getRepository(Utilisateur::class)->find($currentUser->getId());
+    $utilisateur = $this->entityManager->getRepository(Utilisateur::class)->find($currentUser->id);
 
     if (!$utilisateur) {
         // L'utilisateur n'est pas trouvé dans la base de données

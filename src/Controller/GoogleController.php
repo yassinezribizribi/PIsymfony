@@ -16,6 +16,9 @@ use Google_Service_Oauth2;
 class GoogleController extends AbstractController
 {
     private SessionInterface $session;
+    private const GOOGLE_CLIENT_ID = '669555723831-dpmf3m9pgqmblhchjvfo2pgsq5r361j1.apps.googleusercontent.com';
+    private const GOOGLE_CLIENT_SECRET = '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';
+    
 
 
     public function __construct(SessionInterface $session)
@@ -29,11 +32,12 @@ class GoogleController extends AbstractController
     public function authenticate(Request $request): RedirectResponse
     {
         $client = new Client();
-        $client->setApplicationName('Sabd_Box');
-        $client->setClientId($_ENV['GOOGLE_CLIENT_ID']);
-        $client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']);
+        $client->setApplicationName('Client Web 1');
+        $googleClientId = $this->getParameter('google_client_id');
+        $googleClientSecret = $this->getParameter('google_client_secret');
+         // Valeur directe
         $client->setRedirectUri($this->generateUrl('google_auth', [], UrlGeneratorInterface::ABSOLUTE_URL));
-        $client->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
+        $client->addScope(\Google\Service\Oauth2::USERINFO_EMAIL);
 
         // Handle OAuth2 response
         if ($request->query->has('code')) {

@@ -11,6 +11,9 @@ parameters:
    uploads_directory: '%kernel.project_dir%/public/uploads/cours'
    images_directory: '%kernel.project_dir%/public/uploads/images'
    videos_directory: '%kernel.project_dir%/public/uploads/videos'
+   google_client_id: '669555723831-dpmf3m9pgqmblhchjvfo2pgsq5r361j1.apps.googleusercontent.com'
+   google_client_secret: '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'
+   
 
 services:
     # default configuration for services in *this* file
@@ -47,6 +50,4 @@ services:
             $passwordHasher: '@security.user_password_hasher'  # Le bon service pour le hasher
                 # Example of a custom service with specific configurations
 
-    App\Controller\GoogleController:
-        arguments:
-            $session: '@session.factory'
+    
